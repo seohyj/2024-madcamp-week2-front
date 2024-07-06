@@ -7,6 +7,7 @@ import './App.css';
 const Main = () => {
   const [words, setWords] = useState([]);
   const [articleId, setArticleId] = useState('');
+  const [nickname, setNickname] = useState('');
 
   useEffect(() => {
     if (articleId) {
@@ -18,6 +19,14 @@ const Main = () => {
           console.error('There was an error fetching the words!', error);
         });
     }
+    axios.get(`http://localhost:3001/nickname?kakao_id=${localStorage.getItem('kakaoId')}`)
+        .then(response => {
+          //console.log(response.data.nickname);
+          setNickname(response.data.nickname);
+        })
+        .catch(error => {
+          console.error('There was an error fetching the words!', error);
+        });
   }, [articleId]);
 
   const handleInputChange = (event) => {
@@ -54,7 +63,7 @@ const Main = () => {
             </div>
           ))}
         </div>
-        <h1>Welcome, {localStorage.getItem('kakaoId')}</h1>
+        <h1>Welcome, {nickname}</h1>
         <button onClick={handleLogout}>카카오 로그아웃</button>
       </header>
     </div>
