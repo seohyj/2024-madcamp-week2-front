@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import LogoutButton from '../pages/Logout';
 import axios from 'axios';
 import '../styles/App.css';
@@ -7,7 +7,10 @@ import '../styles/App.css';
 const Main = () => {
   const [words, setWords] = useState([]);
   const [articleId, setArticleId] = useState('');
+  const [articleNum, setArticleNum] = useState('');
+  const [articleDetails, setArticleDetails] = useState(null);
 
+  // articleId 변경에 따라 words>article_id 가져오기
   useEffect(() => {
     if (articleId) {
       axios.get(`http://localhost:3001/words?article_id=${articleId}`)
@@ -20,8 +23,29 @@ const Main = () => {
     }
   }, [articleId]);
 
+  // articleNum 변경에 따라 articles>article_num 가져오기
+  useEffect(() => {
+    if (articleNum) {
+      axios.get(`http://localhost:3001/article?id=${articleNum}`)
+        .then(response => {
+          setArticleDetails(response.data);
+        })
+        .catch(error => {
+          console.error('There was an error fetching article!', error);
+        });
+    }
+  }, [articleNum]);
+
+  // 입력 필드가 변경될 때 호출되는 함수
   const handleInputChange = (event) => {
     setArticleId(event.target.value);
+    // 입력된 값을 articleId 상태에 저장
+  };
+
+  // 기사 번호 입력 필드가 변경될 때 호출되는 함수
+  const handleArticleNumChange = (event) => {
+    setArticleNum(event.target.value);
+    // 입력된 값을 articleNum 상태에 저장
   };
 
   const location = useLocation();
@@ -34,7 +58,7 @@ const Main = () => {
       <header className="App-header">
         <h1>Wordbook</h1>
         <input 
-          type="integer" 
+          type="number" 
           value={articleId} 
           onChange={handleInputChange} 
           placeholder="Enter article ID"
@@ -46,8 +70,26 @@ const Main = () => {
             </div>
           ))}
         </div>
+
+        <input
+          type="number"
+          value={articleNum}
+          onChange={handleArticleNumChange}
+          placeholder='Enter article number'
+        />
+        {articleDetails && (
+          <div className="article-details">
+            <h2>{articleDetails.title}</h2>
+            <p>{articleDetails.contents}</p>
+            <p><strong>From:</strong> {articleDetails.from}</p>
+            <p><strong>Author:</strong> {articleDetails.author}</p>
+            <p><strong>Date:</strong> {articleDetails.date}</p>
+            <p><strong>URL:</strong> <Link to="{articleDetails.url}">View Article</Link></p>
+            <a href={articleDetails.url} target="_blank" rel="noopener noreferrer">Read more</a>
+          </div>
+        )}
         <h1>Welcome, {nickname}</h1>
-      <LogoutButton accessToken={accessToken} /> {/* 액세스 토큰 전달 */}
+        <LogoutButton accessToken={accessToken} /> {/* 액세스 토큰 전달 */}
       </header>
     </div>
   );
