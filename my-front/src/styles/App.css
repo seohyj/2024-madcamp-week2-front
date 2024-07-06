@@ -1,26 +1,77 @@
+/* App.css */
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .App-header {
-  background-color: #282c34;
+  width: 65%;
+  background-color: #f0f0f0;
   padding: 20px;
-  color: white;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #333;
 }
 
-input {
+.sidebar {
+  width: 30%;
+  background: linear-gradient(to bottom, #e6e6ff, #ffccff);
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-group input {
+  width: 70%;
   padding: 10px;
-  margin: 20px;
   font-size: 16px;
-}
-
-.word-list {
-  margin: 20px;
-}
-
-.word-item {
-  background: #3d3d3d;
-  margin: 10px 0;
-  padding: 10px;
+  margin-right: 10px;
   border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.input-group button {
+  width: 25%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #ff9999;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.input-group button:hover {
+  background-color: #ff6666;
+}
+
+.word-list, .article-details {
+  margin-top: 20px;
+}
+
+.word-item, .article-details {
+  background: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.word-item strong {
+  color: #333;
 }
