@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import LogoutButton from './Logout';
 import axios from 'axios';
 import './App.css';
@@ -24,10 +24,18 @@ const Main = () => {
     setArticleId(event.target.value);
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const nickname = queryParams.get('nickname');
-  const accessToken = queryParams.get('accessToken'); // 액세스 토큰 가져오기
+  //여기서 부터 login, logout 관련 code
+
+  const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+    const logoutRedirectUri = 'http://localhost:3001/logout/callback'; // 서버의 로그아웃 콜백 URI
+    const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
+    localStorage.removeItem('kakaoId');
+    // 카카오 로그아웃 URL로 리디렉션
+    window.location.href = logoutUrl;
+  };
 
   return (
     <div className="App">
@@ -46,8 +54,8 @@ const Main = () => {
             </div>
           ))}
         </div>
-        <h1>Welcome, {nickname}</h1>
-      <LogoutButton accessToken={accessToken} /> {/* 액세스 토큰 전달 */}
+        <h1>Welcome, {localStorage.getItem('kakaoId')}</h1>
+        <button onClick={handleLogout}>카카오 로그아웃</button>
       </header>
     </div>
   );
