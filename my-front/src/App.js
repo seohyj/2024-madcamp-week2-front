@@ -1,9 +1,11 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import './App.css';
-import KakaoLogin from './kakaologin';
-import Main from './Main';
+import { BrowserRouter as Router, Route, Routes,Navigate } from 'react-router-dom';
+import axios from 'axios';
+import './styles/App.css';
+import KakaoLogin from './pages/kakaologin';
+import Main from './pages/Main';
+import RecommendedArticle from './pages/recommend_article';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); //로그인을 한적이 있는지 확인하는 State 변수
@@ -36,6 +38,11 @@ function App() {
           path="/"
           element={<Navigate to={isAuthenticated ? "/main" : "/login"} />}
         />
+        <Route
+          path="/recommended-article"
+          element={isAuthenticated ? <RecommendedArticle /> : <Navigate to="/login" />}
+        />
+
       </Routes>
     </Router>
   );
