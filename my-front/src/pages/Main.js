@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import LogoutButton from './Logout';
+import LogoutButton from '../pages/Logout';
 import axios from 'axios';
-import './App.css';
+import '../styles/App.css';
 
 const Main = () => {
   const [words, setWords] = useState([]);
