@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import {backend_ip} from './constants.js';
 const KakaoLogin = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -16,7 +16,7 @@ const KakaoLogin = ({ setIsAuthenticated }) => {
     }
 
     window.Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3001/auth/kakao/callback' // 서버의 redirect URI
+      redirectUri: `http://${backend_ip}:3001/auth/kakao/callback` // 서버의 redirect URI
     });
   };
   useEffect(() => {

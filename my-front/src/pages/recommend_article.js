@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import {backend_ip} from './constants.js';
 import axios from 'axios';
 import '../styles/App.css';
-
 const RecommendedArticle = () => {
   const [recommendedArticle, setRecommendedArticle] = useState(null);
   const [newWord, setNewWord] = useState('');
@@ -13,7 +13,7 @@ const RecommendedArticle = () => {
   const userId = queryParams.get('kakao_id');
   
   useEffect(() => {
-    axios.get(`http://localhost:3001/random-article?kakao_id=${userId}`)
+    axios.get(`http://${backend_ip}:3001/random-article?kakao_id=${userId}`)
       .then(response => {
         setRecommendedArticle(response.data);
       })
@@ -28,7 +28,7 @@ const RecommendedArticle = () => {
 
   const handleAddWord = () => {
     if (recommendedArticle) {
-      axios.get(`http://localhost:3001/word?article_id=${recommendedArticle.article_id}&word=${newWord}`)
+      axios.get(`http://${backend_ip}:3001/word?article_id=${recommendedArticle.article_id}&word=${newWord}`)
         .then(response => {
           if (response.data.success) {
             setWords([...words, { word: newWord }]);
