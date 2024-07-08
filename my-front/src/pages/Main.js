@@ -4,7 +4,7 @@ import { backend_ip } from './constants.js';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import Header from './src/components/header.js';
+import Header from '../components/header.js';
 
 const Main = () => {
   const [userId, setUserId] = useState('');
