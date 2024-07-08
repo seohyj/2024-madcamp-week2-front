@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {backend_ip} from './constants.js';
 import axios from 'axios';
 import '../styles/App.css';
-import '../pages/recommend_article.js';
+import './recommend_article.js';
 
 const Main = () => {
   const [userId, setUserId] = useState(''); // user_id
@@ -38,22 +38,29 @@ const Main = () => {
     }
   }, [articleNum]);
 
+  /*
   // 입력 필드가 변경될 때 호출되는 함수
   const handleInputChange = (event) => {
     setArticleId(event.target.value);
     // 입력된 값을 articleId 상태에 저장
   };
+  */
 
+  /*
   // 기사 번호 입력 필드가 변경될 때 호출되는 함수
   const handleArticleNumChange = (event) => {
     setArticleNum(event.target.value);
     // 입력된 값을 articleNum 상태에 저장
   };
+  */
 
+  /*
   const handleUserIdChange = (event) => {
     setUserId(event.target.value);
     // 입력된 값을 User_id 상태에 저장
   };
+  */
+
   const handleLogout = () => {
     const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`; // 서버의 로그아웃 콜백 URI
     const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
@@ -67,53 +74,95 @@ const Main = () => {
   const nickname = queryParams.get('nickname');
   const accessToken = queryParams.get('accessToken'); // 액세스 토큰 가져오기
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Wordbook</h1>
-        <input 
-          type="string" 
-          value={nickname} 
-          onChange={handleUserIdChange} 
-          placeholder="Enter user nickname"
-        />
-        <input 
-          type="number" 
-          value={articleId} 
-          onChange={handleInputChange} 
-          placeholder="Enter article ID"
-        />
-        <div className="word-list">
-          {words.map((word, index) => (
-            <div key={index} className="word-item">
-              <strong>{word.word}</strong>: {word.korean_word}
-            </div>
-          ))}
-        </div>
-
-        <input
-          type="number"
-          value={articleNum}
-          onChange={handleArticleNumChange}
-          placeholder='Enter article number'
-        />
-        {articleDetails && (
-          <div className="article-details">
-            <h2>{articleDetails.title}</h2>
-            <p>{articleDetails.contents}</p>
-            <p><strong>From:</strong> {articleDetails.from}</p>
-            <p><strong>Author:</strong> {articleDetails.author}</p>
-            <p><strong>Date:</strong> {articleDetails.date}</p>
-            <a href={articleDetails.url} target="_blank" rel="noopener noreferrer">Read more</a>
+return (
+    <div className="min-h-screen bg-gray-100">
+      <header className="bg-background-custom text-white p-4 flex justify-between items-center logoheader">
+        <div className="inline-flex justify-end items-center gap-1431px">
+          <div className="logo-image">Logo image should be inserted here</div>
+          <div>
+            <button className="bg-gray-700 px-4 py-2 rounded mr-2">
+              <Link to="/my-page">My Page</Link>
+            </button>
+            <button className="bg-gray-700 px-4 py-2 rounded" onClick={handleLogout}>
+              Log Out
+            </button>
           </div>
-        )}
-
-        <h1>Welcome, {nickname}</h1>
-        <button onClick={handleLogout}>카카오 로그아웃</button>
-        <Link to={`/recommended-article?kakao_id=${localStorage.getItem('kakaoId')}`}>
-          <button>Article Recommendation</button>
-        </Link>
+        </div>
       </header>
+      <main className="p-8">
+        <h1 className="text-4xl font-bold mb-8">Welcome, User</h1>
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-4">Articles to Read</h2>
+          <div className="mb-4">
+            <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
+              <Link to="/select-category">Setup Your Main-Interest Categories</Link>
+            </button>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded">
+              <Link to="/article-study">Just Get a Random Piece of Article</Link>
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button className="bg-white p-4 rounded shadow">
+              <Link to="/article-study">Science</Link>
+            </button>
+            <button className="bg-white p-4 rounded shadow">
+              <Link to="/article-study">Culture</Link>
+            </button>
+            <button className="bg-white p-4 rounded shadow">
+              <Link to="/article-study">Health</Link>
+            </button>
+            <button className="bg-white p-4 rounded shadow">
+              <Link to="/article-study">Technology</Link>
+            </button>
+          </div>
+        </section>
+        <section>
+          <h2 className="text-2xl font-bold mb-4">Review your Vocabularies</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="bg-white p-4 rounded shadow">
+              <h3 className="font-bold mb-2">Title of the Article Here</h3>
+              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
+                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
+              </button>
+              <button className="bg-gray-300 px-2 py-1 rounded">
+                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
+              </button>
+            </div>
+            <div className="bg-white p-4 rounded shadow">
+              <h3 className="font-bold mb-2">Title of the Article Here</h3>
+              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
+                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
+              </button>
+              <button className="bg-gray-300 px-2 py-1 rounded">
+                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
+              </button>
+            </div>
+            <div className="bg-white p-4 rounded shadow">
+              <h3 className="font-bold mb-2">Title of the Article Here</h3>
+              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
+                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
+              </button>
+              <button className="bg-gray-300 px-2 py-1 rounded">
+                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
+              </button>
+            </div>
+            <div className="bg-white p-4 rounded shadow">
+              <h3 className="font-bold mb-2">Title of the Article Here</h3>
+              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
+                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
+              </button>
+              <button className="bg-gray-300 px-2 py-1 rounded">
+                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
+              </button>
+            </div>
+          </div>
+        </section>
+        <div className="text-center mt-8">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded">
+            <Link to="/articlelistView">View All Read Articles</Link>
+          </button>
+        </div>
+      </main>
     </div>
   );
 };
