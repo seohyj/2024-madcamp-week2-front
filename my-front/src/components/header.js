@@ -78,7 +78,7 @@ const Nav = styled.div`
 const Button = styled.button`
   width: 83px;
   height: 32px;
-  padding: 8px;
+  padding: 0px;
   background: #E3E3E3;
   border-radius: 8px;
   border: none;
