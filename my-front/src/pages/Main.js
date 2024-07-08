@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
-import {backend_ip} from './constants.js';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { backend_ip } from './constants.js';
 import axios from 'axios';
-import '../styles/App.css';
-import './recommend_article.js';
+import styled from 'styled-components';
 
 const Main = () => {
-  const [userId, setUserId] = useState(''); // user_id
-  const [articleId, setArticleId] = useState(''); //word
+  const [userId, setUserId] = useState('');
+  const [articleId, setArticleId] = useState('');
   const [words, setWords] = useState([]);
-  const [articleNum, setArticleNum] = useState(''); //article
+  const [articleNum, setArticleNum] = useState('');
   const [articleDetails, setArticleDetails] = useState(null);
   const navigate = useNavigate();
 
@@ -38,133 +36,212 @@ const Main = () => {
     }
   }, [articleNum]);
 
-  /*
-  // 입력 필드가 변경될 때 호출되는 함수
-  const handleInputChange = (event) => {
-    setArticleId(event.target.value);
-    // 입력된 값을 articleId 상태에 저장
-  };
-  */
-
-  /*
-  // 기사 번호 입력 필드가 변경될 때 호출되는 함수
-  const handleArticleNumChange = (event) => {
-    setArticleNum(event.target.value);
-    // 입력된 값을 articleNum 상태에 저장
-  };
-  */
-
-  /*
-  const handleUserIdChange = (event) => {
-    setUserId(event.target.value);
-    // 입력된 값을 User_id 상태에 저장
-  };
-  */
-
   const handleLogout = () => {
-    const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`; // 서버의 로그아웃 콜백 URI
+    const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`;
     const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
     localStorage.removeItem('kakaoId');
-    // 카카오 로그아웃 URL로 리디렉션
     window.location.href = logoutUrl;
   };
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const nickname = queryParams.get('nickname');
-  const accessToken = queryParams.get('accessToken'); // 액세스 토큰 가져오기
+  const accessToken = queryParams.get('accessToken');
 
-return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-background-custom text-white p-4 flex justify-between items-center logoheader">
-        <div className="inline-flex justify-end items-center gap-1431px">
-          <div className="logo-image">Logo image should be inserted here</div>
-          <div>
-            <button className="bg-gray-700 px-4 py-2 rounded mr-2">
-              <Link to="/my-page">My Page</Link>
-            </button>
-            <button className="bg-gray-700 px-4 py-2 rounded" onClick={handleLogout}>
-              Log Out
-            </button>
-          </div>
-        </div>
-      </header>
-      <main className="p-8">
-        <h1 className="text-4xl font-bold mb-8">Welcome, User</h1>
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Articles to Read</h2>
-          <div className="mb-4">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
-              <Link to="/select-category">Setup Your Main-Interest Categories</Link>
-            </button>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded">
-              <Link to="/article-study">Just Get a Random Piece of Article</Link>
-            </button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button className="bg-white p-4 rounded shadow">
-              <Link to="/article-study">Science</Link>
-            </button>
-            <button className="bg-white p-4 rounded shadow">
-              <Link to="/article-study">Culture</Link>
-            </button>
-            <button className="bg-white p-4 rounded shadow">
-              <Link to="/article-study">Health</Link>
-            </button>
-            <button className="bg-white p-4 rounded shadow">
-              <Link to="/article-study">Technology</Link>
-            </button>
-          </div>
-        </section>
-        <section>
-          <h2 className="text-2xl font-bold mb-4">Review your Vocabularies</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="bg-white p-4 rounded shadow">
-              <h3 className="font-bold mb-2">Title of the Article Here</h3>
-              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
-                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
-              </button>
-              <button className="bg-gray-300 px-2 py-1 rounded">
-                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
-              </button>
-            </div>
-            <div className="bg-white p-4 rounded shadow">
-              <h3 className="font-bold mb-2">Title of the Article Here</h3>
-              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
-                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
-              </button>
-              <button className="bg-gray-300 px-2 py-1 rounded">
-                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
-              </button>
-            </div>
-            <div className="bg-white p-4 rounded shadow">
-              <h3 className="font-bold mb-2">Title of the Article Here</h3>
-              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
-                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
-              </button>
-              <button className="bg-gray-300 px-2 py-1 rounded">
-                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
-              </button>
-            </div>
-            <div className="bg-white p-4 rounded shadow">
-              <h3 className="font-bold mb-2">Title of the Article Here</h3>
-              <button className="bg-gray-300 px-2 py-1 rounded mr-2">
-                <Link to="/wordslistView">View Vocab Lists from this Article</Link>
-              </button>
-              <button className="bg-gray-300 px-2 py-1 rounded">
-                <Link to="/take-quiz">Take Quiz with the words you studied</Link>
-              </button>
-            </div>
-          </div>
-        </section>
-        <div className="text-center mt-8">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded">
-            <Link to="/articlelistView">View All Read Articles</Link>
-          </button>
-        </div>
-      </main>
-    </div>
+  return (
+    <Container>
+      <Header>
+        <Logo>Wordicle</Logo>
+        <Nav>
+          <StyledLink to="/my-page">My Page</StyledLink>
+          <LogoutButton onClick={handleLogout}>Log Out</LogoutButton>
+        </Nav>
+      </Header>
+      <MainContent>
+        <WelcomeMessage>Welcome, {nickname || 'User'}</WelcomeMessage>
+        <Section>
+          <SectionTitle>Articles to Read</SectionTitle>
+          <ButtonGroup>
+            <StyledLinkButton to="/select-category">Setup Your Main-Interest Categories</StyledLinkButton>
+            <StyledLinkButton to="/article-study">Just Get a Random Piece of Article</StyledLinkButton>
+          </ButtonGroup>
+          <Grid>
+            <GridItem>
+              <StyledLink to="/article-study">Science</StyledLink>
+            </GridItem>
+            <GridItem>
+              <StyledLink to="/article-study">Culture</StyledLink>
+            </GridItem>
+            <GridItem>
+              <StyledLink to="/article-study">Health</StyledLink>
+            </GridItem>
+            <GridItem>
+              <StyledLink to="/article-study">Technology</StyledLink>
+            </GridItem>
+          </Grid>
+        </Section>
+        <Section>
+          <SectionTitle>Review your Vocabularies</SectionTitle>
+          <Grid cols={4}>
+            <GridItem>
+              <ArticleTitle>Title of the Article Here</ArticleTitle>
+              <ButtonGroup>
+                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+              </ButtonGroup>
+            </GridItem>
+            <GridItem>
+              <ArticleTitle>Title of the Article Here</ArticleTitle>
+              <ButtonGroup>
+                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+              </ButtonGroup>
+            </GridItem>
+            <GridItem>
+              <ArticleTitle>Title of the Article Here</ArticleTitle>
+              <ButtonGroup>
+                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+              </ButtonGroup>
+            </GridItem>
+            <GridItem>
+              <ArticleTitle>Title of the Article Here</ArticleTitle>
+              <ButtonGroup>
+                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+              </ButtonGroup>
+            </GridItem>
+          </Grid>
+        </Section>
+        <CenterButton>
+          <StyledLinkButton to="/articlelistView">View All Read Articles</StyledLinkButton>
+        </CenterButton>
+      </MainContent>
+    </Container>
   );
 };
 
 export default Main;
+
+// Styled Components
+
+const Container = styled.div`
+  min-height: 100vh;
+  background: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.header`
+  background: #333;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Logo = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const Nav = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const LogoutButton = styled.button`
+  background: #444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+
+  &:hover {
+    background: #555;
+  }
+`;
+
+const MainContent = styled.main`
+  padding: 2rem;
+  flex: 1;
+`;
+
+const WelcomeMessage = styled.h1`
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+`;
+
+const Section = styled.section`
+  margin-bottom: 3rem;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const StyledLinkButton = styled(Link)`
+  background: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  text-align: center;
+
+  &:hover {
+    background: #0056b3;
+  }
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(${props => props.cols || 2}, 1fr);
+  gap: 1rem;
+`;
+
+const GridItem = styled.div`
+  background: white;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+`;
+
+const ArticleTitle = styled.h3`
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+`;
+
+const CenterButton = styled.div`
+  text-align: center;
+  margin-top: 2rem;
+`;
+
+const BackgroundSection = styled.div`
+  background-image: url('image.png'); /* 이미지 경로를 설정해 주세요 */
+  background-size: cover;
+  background-position: center;
+  padding: 2rem;
+`;
