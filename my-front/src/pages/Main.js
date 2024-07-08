@@ -4,6 +4,8 @@ import { backend_ip } from './constants.js';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import Header from './src/components/header.js';
+
 const Main = () => {
   const [userId, setUserId] = useState('');
   const [articleId, setArticleId] = useState('');
@@ -50,19 +52,13 @@ const Main = () => {
 
   return (
     <Container>
-      <Header>
-        <Logo>Wordicle</Logo>
-        <Nav>
-          <StyledLink to="/my-page">My Page</StyledLink>
-          <LogoutButton onClick={handleLogout}>Log Out</LogoutButton>
-        </Nav>
-      </Header>
+      <Header handleLogout={handleLogout} />
       <MainContent>
         <WelcomeMessage>Welcome, {nickname || 'User'}</WelcomeMessage>
         <Section>
           <SectionTitle>Articles to Read</SectionTitle>
           <ButtonGroup>
-            <StyledLinkButton to="/select-category">Setup Your Main-Interest Categories</StyledLinkButton>
+            <StyledLinkButton to="/categories">Setup Your Main-Interest Categories</StyledLinkButton>
             <StyledLinkButton to="/article-study">Just Get a Random Piece of Article</StyledLinkButton>
           </ButtonGroup>
           <Grid>
@@ -130,25 +126,7 @@ const Container = styled.div`
   background: #f0f0f0;
   display: flex;
   flex-direction: column;
-`;
-
-const Header = styled.header`
-  background: #333;
-  color: white;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-`;
-
-const Logo = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
-`;
-
-const Nav = styled.div`
-  display: flex;
-  gap: 1rem;
 `;
 
 const StyledLink = styled(Link)`
@@ -157,19 +135,6 @@ const StyledLink = styled(Link)`
 
   &:hover {
     text-decoration: underline;
-  }
-`;
-
-const LogoutButton = styled.button`
-  background: #444;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
-
-  &:hover {
-    background: #555;
   }
 `;
 
