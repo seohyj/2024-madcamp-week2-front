@@ -63,6 +63,7 @@ const RecommendedArticle = () => {
           <div className="recommended-article">
             <h2>{recommendedArticle.title}</h2>
             <p>{recommendedArticle.contents}</p>
+            <p>{recommendedArticle.category}</p>
             <p><strong>Author:</strong> {recommendedArticle.author}</p>
             <p><strong>Date:</strong> {recommendedArticle.date}</p>
           </div>

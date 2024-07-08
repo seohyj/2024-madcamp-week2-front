@@ -9,6 +9,7 @@ import Header from '../components/header.js';
 const Main = () => {
   const [userId, setUserId] = useState('');
   const [nickname, setNickName] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState(['economy','Lifestyle','Culture','Economy']);
   const navigate = useNavigate();
   useEffect(() => {
     if(userId===''){
@@ -16,13 +17,44 @@ const Main = () => {
     }
   }, [userId]);
   useEffect(() => {
-    axios.get(`http://${backend_ip}:3001/kakao/nickname?kakao_id=${userId}`)
+    if(userId!==''){
+      axios.get(`http://${backend_ip}:3001/kakao/nickname?kakao_id=${userId}`)
       .then(response => {
         setNickName(response.data.nickname);
       })
       .catch(error => {
         console.error('There was an error fetching article!', error);
       });
+    }
+  }, [userId]);
+  useEffect(() => {
+    if(userId!==''){
+      const fetchCategories = async () => {
+        let category_buffer = ['', '', '', ''];
+        const requests = [];
+
+        for (let i = 1; i <= 4; i++) {
+          requests.push(
+            axios.get(`http://${backend_ip}:3001/user/get-category`, {
+              params: {
+                user_id: userId,
+                category_number: i,
+              }
+            })
+            .then(response => {
+              category_buffer[i - 1] = response.data.category_text || selectedCategories[i - 1];
+            })
+            .catch(error => {
+              console.error('There was an error fetching article!', error);
+            })
+          );
+        }
+
+        await Promise.all(requests);
+        setSelectedCategories(category_buffer);
+      };
+      fetchCategories();
+    }
   }, [userId]);
   const handleLogout = () => {
     const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`;
@@ -44,16 +76,16 @@ const Main = () => {
           </ButtonGroup>
           <Grid>
             <GridItem>
-              <StyledLink to="/article-study/Science">Science</StyledLink>
+              <StyledLink to={`/article-study/${selectedCategories[0]}`}>{selectedCategories[0]}</StyledLink>
             </GridItem>
             <GridItem>
-              <StyledLink to="/article-study/Culture">Culture</StyledLink>
+              <StyledLink to={`/article-study/${selectedCategories[1]}`}>{selectedCategories[1]}</StyledLink>
             </GridItem>
             <GridItem>
-              <StyledLink to="/article-study/Health">Health</StyledLink>
+              <StyledLink to={`/article-study/${selectedCategories[2]}`}>{selectedCategories[2]}</StyledLink>
             </GridItem>
             <GridItem>
-              <StyledLink to="/article-study/Technology">Technology</StyledLink>
+              <StyledLink to={`/article-study/${selectedCategories[3]}`}>{selectedCategories[3]}</StyledLink>
             </GridItem>
           </Grid>
         </Section>
