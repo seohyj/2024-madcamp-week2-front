@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import {backend_ip} from './constants.js';
-import './Logout.js';
 import axios from 'axios';
 import '../styles/App.css';
 import './recommend_article.js';
@@ -17,7 +16,7 @@ const Main = () => {
 
   useEffect(() => {
     if (articleId) {
-      axios.get(`http://${backend_ip}:3001/words?article_id=${articleId}`)
+      axios.get(`http://${backend_ip}:3001/words/words?article_id=${articleId}`)
         .then(response => {
           setWords(response.data);
         })
@@ -29,7 +28,7 @@ const Main = () => {
 
   useEffect(() => {
     if (articleNum) {
-      axios.get(`http://${backend_ip}:3001/article?id=${articleNum}`)
+      axios.get(`http://${backend_ip}:3001/article/article?id=${articleNum}`)
         .then(response => {
           setArticleDetails(response.data);
         })
@@ -63,7 +62,7 @@ const Main = () => {
   */
 
   const handleLogout = () => {
-    const logoutRedirectUri = `http://${backend_ip}:3001/logout/callback`; // 서버의 로그아웃 콜백 URI
+    const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`; // 서버의 로그아웃 콜백 URI
     const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
     localStorage.removeItem('kakaoId');
     // 카카오 로그아웃 URL로 리디렉션
