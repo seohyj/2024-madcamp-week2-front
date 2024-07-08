@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {backend_ip} from './constants.js';
+import styled from 'styled-components';
+
+import logoImage from '../assets/logoimage.png';
+import backgroundImage from '../assets/background.png'; // 배경 이미지 경로
 
 const KakaoLogin = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
@@ -31,30 +35,231 @@ const KakaoLogin = ({ setIsAuthenticated }) => {
   }, [navigate, setIsAuthenticated]);
 
   return (
-    <div className="flex flex-col items-center w-full h-screen bg-surface-container-lowest rounded-t-extra-large">
-      <header className="flex justify-end items-center h-16 w-full px-8 bg-surface-container-lowest">
-        <div className="opacity-stroke-border">Header Content</div>
-      </header>
-      <div className="w-full h-full bg-gradient-custom">
-        <div className="flex flex-col justify-center items-center gap-10 h-[334px] w-full">
-          <div className="flex flex-col justify-center items-center gap-2 px-4">
-            <h1 className="text-custom-black text-4xl font-normal leading-[120%] tracking-[-1.2px] opacity-stroke-border">
-              Study English with your Favorite Articles
-            </h1>
-          </div>
-          <button
-            onClick={handleLogin}
-            className="flex justify-center items-center w-[868px] px-4 py-3 bg-custom-gray text-custom-green text-2xl font-medium rounded-lg shadow-custom opacity-stroke-border"
-          >
-            Log In with your Kakao ID
-          </button>
-        </div>
-      </div>
-      <footer className="flex justify-end items-center h-16 w-full px-8 bg-surface-container-lowest">
-        <div className="opacity-stroke-border">Footer Content</div>
-      </footer>
-    </div>
+    <Container>
+      <Header />
+      <MainSection>
+        <LeftSection>
+          <LogoContainer>
+            <LogoImage src={logoImage} />
+          </LogoContainer>
+        </LeftSection>
+        <RightSection>
+          <Content>
+            <TitleContainer>
+              <Title>Study English with your Favorite Articles</Title>
+            </TitleContainer>
+            <ButtonContainer>
+              <LoginButton onClick={handleLogin}>
+                <ButtonText>Log In with your Kakao ID</ButtonText>
+              </LoginButton>
+            </ButtonContainer>
+          </Content>
+        </RightSection>
+      </MainSection>
+      <Footer />
+    </Container>
   );
 };
 
 export default KakaoLogin;
+
+// Styled Components
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  align-self: stretch;
+  height: 64px;
+  padding: 8px 12px;
+  background: white;
+`;
+
+const MainSection = styled.div`
+  width: 100%;
+  height: calc(100vh - 128px); /* Adjust height according to the footer and header */
+  display: flex;
+  background: url(${backgroundImage}) no-repeat center center;
+  background-size: cover;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+  }
+`;
+
+const LeftSection = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+  }
+`;
+
+const RightSection = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+  }
+`;
+
+const LogoContainer = styled.div`
+  width: 418px;
+  height: 406px;
+  position: relative;
+
+  @media (max-width: 1024px) {
+    width: 300px;
+    height: 300px;
+  }
+
+  @media (max-width: 768px) {
+    width: 200px;
+    height: 200px;
+  }
+`;
+
+const LogoImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+`;
+
+
+const Content = styled.div`
+  width: 868px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 41px;
+
+  @media (max-width: 1024px) {
+    width: 90%;
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+  }
+`;
+
+const TitleContainer = styled.div`
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
+
+const Title = styled.div`
+  width: 777px;
+  color: #0c0c0d;
+  font-size: 37px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  line-height: 48px;
+  word-wrap: break-word;
+  text-align: center;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    height: auto;
+  }
+`;
+
+const LoginButton = styled.button`
+  width: 868px;
+  height: 130px;
+  background: #292a2a;
+  box-shadow: -3px -3px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    height: 100px;
+  }
+
+  @media (max-width: 768px) {
+    height: 80px;
+  }
+`;
+
+const ButtonText = styled.div`
+  text-align: center;
+  color: #f4ffb1;
+  font-size: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  line-height: 50px;
+  word-wrap: break-word;
+
+  @media (max-width: 1024px) {
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    line-height: 24px;
+  }
+`;
+
+const Footer = styled.div`
+  align-self: stretch;
+  height: 64px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
