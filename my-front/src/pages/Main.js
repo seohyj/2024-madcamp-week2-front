@@ -165,10 +165,12 @@ const SectionWrapper = styled.section`
 `;
 
 const ImageContainer = styled.div`
-  width: 1600px;
+  width: 100%;
+  max-width: 1600px;
   height: 274px;
   background-image: url(${props => props.backgroundImage});
   background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   display: flex;
   flex-direction: column;
