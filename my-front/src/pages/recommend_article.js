@@ -8,12 +8,15 @@ const RecommendedArticle = () => {
   const [newWord, setNewWord] = useState('');
   const [words, setWords] = useState([]);
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const userId = queryParams.get('kakao_id');
-  
+
+  //해당부분 post 변경으로 사용불가-> user_id는 localStorage에서 가져올수 있음.
+  //const location = useLocation();
+  //const queryParams = new URLSearchParams(location.search);
+  //const userId = queryParams.get('kakao_id');
+  const userId = localStorage.getItem('kakaoId');
+
   useEffect(() => {
-    axios.get(`http://${backend_ip}:3001/article/random-article?kakao_id=${userId}`)
+    axios.get(`http://${backend_ip}:3001/article/random-article`,{kakao_id: userId})
       .then(response => {
         setRecommendedArticle(response.data);
       })
@@ -28,7 +31,7 @@ const RecommendedArticle = () => {
 
   const handleAddWord = () => {
     if (recommendedArticle) {
-      axios.get(`http://${backend_ip}:3001/words/word?article_id=${recommendedArticle.article_id}&word=${newWord}`)
+      axios.post(`http://${backend_ip}:3001/words/word`,{ article_id: recommendedArticle.article_id, word: newWord})
         .then(response => {
           if (response.data.success) {
             setWords([...words, { word: newWord }]);
