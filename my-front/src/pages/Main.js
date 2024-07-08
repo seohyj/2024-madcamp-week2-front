@@ -69,11 +69,6 @@ const Main = () => {
     window.location.href = logoutUrl;
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const nickname = queryParams.get('nickname');
-  const accessToken = queryParams.get('accessToken'); // 액세스 토큰 가져오기
-
 return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-background-custom text-white p-4 flex justify-between items-center logoheader">
