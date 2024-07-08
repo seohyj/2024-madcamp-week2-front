@@ -2,9 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { backend_ip } from './constants.js';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import Header from '../components/header.js';
+import mainb1 from '../assets/main_b1.png';
+import mainb2 from '../assets/main_b2.png';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+  }
+`;
 
 const Main = () => {
   const [userId, setUserId] = useState('');
@@ -52,12 +62,14 @@ const Main = () => {
 
   return (
     <Container>
+      <GlobalStyle />
       <Header handleLogout={handleLogout} />
       <MainContent>
         <WelcomeMessage>Welcome, {nickname || 'User'}</WelcomeMessage>
-        <Section>
-          <SectionTitle>Articles to Read</SectionTitle>
-          <ButtonGroup>
+        <SectionWrapper>
+          <ImageContainer backgroundImage={mainb1}></ImageContainer>
+        </SectionWrapper>
+        <ButtonGroup>
             <StyledLinkButton to="/categories">Setup Your Main-Interest Categories</StyledLinkButton>
             <StyledLinkButton to="/article-study">Just Get a Random Piece of Article</StyledLinkButton>
           </ButtonGroup>
@@ -75,40 +87,39 @@ const Main = () => {
               <StyledLink to="/article-study">Technology</StyledLink>
             </GridItem>
           </Grid>
-        </Section>
-        <Section>
-          <SectionTitle>Review your Vocabularies</SectionTitle>
-          <Grid cols={4}>
-            <GridItem>
-              <ArticleTitle>Title of the Article Here</ArticleTitle>
-              <ButtonGroup>
-                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
-              </ButtonGroup>
-            </GridItem>
-            <GridItem>
-              <ArticleTitle>Title of the Article Here</ArticleTitle>
-              <ButtonGroup>
-                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
-              </ButtonGroup>
-            </GridItem>
-            <GridItem>
-              <ArticleTitle>Title of the Article Here</ArticleTitle>
-              <ButtonGroup>
-                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
-              </ButtonGroup>
-            </GridItem>
-            <GridItem>
-              <ArticleTitle>Title of the Article Here</ArticleTitle>
-              <ButtonGroup>
-                <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
-              </ButtonGroup>
-            </GridItem>
-          </Grid>
-        </Section>
+        <SectionWrapper>
+          <ImageContainer backgroundImage={mainb2}></ImageContainer>
+        </SectionWrapper>
+        <Grid cols={4}>
+              <GridItem>
+                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ButtonGroup>
+                  <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                </ButtonGroup>
+              </GridItem>
+              <GridItem>
+                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ButtonGroup>
+                  <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                </ButtonGroup>
+              </GridItem>
+              <GridItem>
+                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ButtonGroup>
+                  <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                </ButtonGroup>
+              </GridItem>
+              <GridItem>
+                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ButtonGroup>
+                  <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                </ButtonGroup>
+              </GridItem>
+            </Grid>
         <CenterButton>
           <StyledLinkButton to="/articlelistView">View All Read Articles</StyledLinkButton>
         </CenterButton>
@@ -129,34 +140,42 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const StyledLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const MainContent = styled.main`
   padding: 2rem;
   flex: 1;
+  width: 100%;
+  max-width: 1920px;
+  padding-left: 160px;
+  padding-right: 160px;
+  box-sizing: border-box;
 `;
 
 const WelcomeMessage = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 2rem;
+  text-align: center;
 `;
 
-const Section = styled.section`
+const SectionWrapper = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: center;
   margin-bottom: 3rem;
 `;
 
-const SectionTitle = styled.h2`
-  font-size: 1.75rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+const ImageContainer = styled.div`
+  width: 1600px;
+  height: 274px;
+  background-image: url(${props => props.backgroundImage});
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
 `;
 
 const ButtonGroup = styled.div`
@@ -204,9 +223,17 @@ const CenterButton = styled.div`
   margin-top: 2rem;
 `;
 
-const BackgroundSection = styled.div`
-  background-image: url('image.png'); /* 이미지 경로를 설정해 주세요 */
-  background-size: cover;
-  background-position: center;
-  padding: 2rem;
+const StyledLink = styled(Link)`
+  color: #0C0C0D;
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 48px */
+  letter-spacing: -1.2px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
