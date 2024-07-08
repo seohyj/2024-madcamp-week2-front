@@ -39,9 +39,14 @@ function App() {
           element={<Navigate to={isAuthenticated ? "/main" : "/login"} />}
         />
         <Route
-          path="/recommended-article"
+          path="/article-study/:category"
           element={isAuthenticated ? <RecommendedArticle /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/article-study"
+          element={isAuthenticated ? <RecommendedArticle /> : <Navigate to="/login" />}
+        />
+        
 
       </Routes>
     </Router>

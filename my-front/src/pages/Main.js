@@ -6,47 +6,28 @@ import styled from 'styled-components';
 
 const Main = () => {
   const [userId, setUserId] = useState('');
-  const [articleId, setArticleId] = useState('');
-  const [words, setWords] = useState([]);
-  const [articleNum, setArticleNum] = useState('');
-  const [articleDetails, setArticleDetails] = useState(null);
+  const [nickname, setNickName] = useState('');
   const navigate = useNavigate();
-
   useEffect(() => {
-    if (articleId) {
-      axios.get(`http://${backend_ip}:3001/words/words?article_id=${articleId}`)
-        .then(response => {
-          setWords(response.data);
-        })
-        .catch(error => {
-          console.error('There was an error fetching the words!', error);
-        });
+    if(userId===''){
+      setUserId(localStorage.getItem('kakaoId'));
     }
-  }, [articleId]);
-
+  }, [userId]);
   useEffect(() => {
-    if (articleNum) {
-      axios.get(`http://${backend_ip}:3001/article/article?id=${articleNum}`)
-        .then(response => {
-          setArticleDetails(response.data);
-        })
-        .catch(error => {
-          console.error('There was an error fetching article!', error);
-        });
-    }
-  }, [articleNum]);
-
+    axios.get(`http://${backend_ip}:3001/kakao/nickname?kakao_id=${userId}`)
+      .then(response => {
+        setNickName(response.data.nickname);
+      })
+      .catch(error => {
+        console.error('There was an error fetching article!', error);
+      });
+  }, [userId]);
   const handleLogout = () => {
     const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`;
     const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
     localStorage.removeItem('kakaoId');
     window.location.href = logoutUrl;
-  };
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const nickname = queryParams.get('nickname');
-  const accessToken = queryParams.get('accessToken');
+  }; 
 
   return (
     <Container>
@@ -67,16 +48,16 @@ const Main = () => {
           </ButtonGroup>
           <Grid>
             <GridItem>
-              <StyledLink to="/article-study">Science</StyledLink>
+              <StyledLink to="/article-study/Science">Science</StyledLink>
             </GridItem>
             <GridItem>
-              <StyledLink to="/article-study">Culture</StyledLink>
+              <StyledLink to="/article-study/Culture">Culture</StyledLink>
             </GridItem>
             <GridItem>
-              <StyledLink to="/article-study">Health</StyledLink>
+              <StyledLink to="/article-study/Health">Health</StyledLink>
             </GridItem>
             <GridItem>
-              <StyledLink to="/article-study">Technology</StyledLink>
+              <StyledLink to="/article-study/Technology">Technology</StyledLink>
             </GridItem>
           </Grid>
         </Section>
