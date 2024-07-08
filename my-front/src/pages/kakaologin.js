@@ -16,7 +16,7 @@ const KakaoLogin = ({ setIsAuthenticated }) => {
     }
 
     window.Kakao.Auth.authorize({
-      redirectUri: `http://${backend_ip}:3001/auth/kakao/callback` // 서버의 redirect URI
+      redirectUri: `http://${backend_ip}:3001/kakao/auth/kakao/callback` // 서버의 redirect URI
     });
   };
   useEffect(() => {
