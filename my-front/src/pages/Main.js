@@ -414,8 +414,9 @@ const GridItem = styled.div`
 `;
 
 const ArticleTitle = styled.h3`
+  font-family: Avenir;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 1rem;
 `;
 

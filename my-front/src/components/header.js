@@ -15,9 +15,13 @@ const handleLogout = () => {
   };
 
 const Header = ({ handleLogout }) => {
+  const navigate = useNavigate();
+  const handleLogoClick = () => {
+    navigate('/main');
+  };
   return (
     <HeaderContainer>
-      <LogoContainer>
+      <LogoContainer onClick={handleLogoClick}>
         <Logo src={headerlogoImage} alt="Wordicle Logo" />
       </LogoContainer>
       <Nav>
