@@ -20,12 +20,15 @@ const Main = () => {
   const [userId, setUserId] = useState('');
   const [nickname, setNickName] = useState('');
   const [selectedCategories, setSelectedCategories] = useState(['economy','Lifestyle','Culture','Economy']);
+  const [articles, setArticles] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     if(userId===''){
       setUserId(localStorage.getItem('kakaoId'));
     }
   }, [userId]);
+
   useEffect(() => {
     if(userId!==''){
       axios.get(`http://${backend_ip}:3001/kakao/nickname?kakao_id=${userId}`)
@@ -33,10 +36,11 @@ const Main = () => {
         setNickName(response.data.nickname);
       })
       .catch(error => {
-        console.error('There was an error fetching article!', error);
+        console.error('There was an error fetching nickname!', error);
       });
     }
   }, [userId]);
+
   useEffect(() => {
     if(userId!==''){
       const fetchCategories = async () => {
@@ -66,12 +70,37 @@ const Main = () => {
       fetchCategories();
     }
   }, [userId]);
+
+  useEffect(() => {
+    // Fetch articles here if needed and set them to the state
+    const fetchArticles = async () => {
+      try {
+        const response = await axios.get(`http://${backend_ip}:3001/articles`, {
+          params: {
+            user_id: userId,
+          }
+        });
+        setArticles(response.data.articles);
+      } catch (error) {
+        console.error('There was an error fetching articles!', error);
+      }
+    };
+    if (userId !== '') {
+      fetchArticles();
+    }
+  }, [userId]);
+
   const handleLogout = () => {
     const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`;
     const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
     localStorage.removeItem('kakaoId');
     window.location.href = logoutUrl;
-  }; 
+  };
+
+  const handleTakeQuiz = (articleId) => {
+    localStorage.setItem('selectedArticleId', articleId);
+    navigate(`/take-quiz/${articles.id}`);
+  };
 
   return (
     <Container>
@@ -108,28 +137,28 @@ const Main = () => {
                 <ArticleTitle>Title of the Article Here</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[0].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
                 <ArticleTitle>Title of the Article Here</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[1].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
                 <ArticleTitle>Title of the Article Here</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[2].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
                 <ArticleTitle>Title of the Article Here</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[3].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
             </Grid>
