@@ -20,6 +20,7 @@ const Main = () => {
   const [userId, setUserId] = useState('');
   const [nickname, setNickName] = useState('');
   const [selectedCategories, setSelectedCategories] = useState(['economy','Lifestyle','Culture','Economy']);
+  const [readArticles, setReadArticles] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     if(userId===''){
@@ -66,6 +67,23 @@ const Main = () => {
       fetchCategories();
     }
   }, [userId]);
+  
+  useEffect(() => {
+    if(userId!==''){
+      axios.get(`http://${backend_ip}:3001/article/articles`,{params: {user_id: userId}})
+      .then(response => {
+        setReadArticles(response.data);
+        console.log(readArticles);
+      })
+      .catch(error => {
+        console.error('There was an error recommending an article!', error);
+      });
+    }
+    
+  },[userId]);
+
+
+
   const handleLogout = () => {
     const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`;
     const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
@@ -105,28 +123,31 @@ const Main = () => {
         </SectionWrapper>
         <Grid cols={4}>
               <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ArticleTitle>{readArticles && readArticles.length>0? readArticles[0].title : "read more articles"}</ArticleTitle>
+              {(readArticles && readArticles.length>0)?(
+                <ButtonGroup>
+                  <StyledLinkButton to={`/article-study/${readArticles[0].article_id}`}>View Vocab Lists from this Article</StyledLinkButton>
+                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                </ButtonGroup>
+              ):null
+              }
+              </GridItem>
+              <GridItem>
+                <ArticleTitle>{readArticles && readArticles.length>1 ? readArticles[1].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
                   <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ArticleTitle>{readArticles && readArticles.length>2 ? readArticles[2].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
                   <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
-                <ButtonGroup>
-                  <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
-                </ButtonGroup>
-              </GridItem>
-              <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ArticleTitle>{readArticles && readArticles.length>3 ? readArticles[3].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
                   <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
