@@ -8,7 +8,7 @@ import Main from './pages/Main';
 import RecommendedArticle from './pages/recommend_article';
 import Categories from './pages/categories';
 import QuizSelect from './pages/quiz_select';
-
+import ArticlelistView from './pages/articlelist';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); //로그인을 한적이 있는지 확인하는 State 변수
   const [loading, setLoading] = useState(true); // 초기 로딩 상태
@@ -55,6 +55,10 @@ function App() {
         <Route
           path="/take-quiz/:id"
           element={isAuthenticated ? <QuizSelect /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/articlelistView"
+          element={isAuthenticated ? <ArticlelistView /> : <Navigate to="/login" />}
         />
       </Routes>
     </Router>
