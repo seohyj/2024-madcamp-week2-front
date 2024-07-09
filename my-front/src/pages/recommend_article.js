@@ -17,24 +17,54 @@ const RecommendedArticle = () => {
   const [newWord, setNewWord] = useState('');
   const [words, setWords] = useState([]);
 
-  let { category } = useParams();
-  //해당부분 post 변경으로 사용불가-> user_id는 localStorage에서 가져올수 있음.
-  //const location = useLocation();
-  //const queryParams = new URLSearchParams(location.search);
-  //const userId = queryParams.get('kakao_id');
+  let { param } = useParams();
+  let category = null;
+  let article_id = null;
   const userId = localStorage.getItem('kakaoId');
   
+  const isNumeric = (value) => {
+    return /^\d+$/.test(value);
+  };
+
+  // param이 숫자이면 id, 문자가 섞여 있으면 category로 간주
+  if (isNumeric(param)) {
+    article_id = param;
+  } else {
+    category = param;
+  }
 
   
   useEffect(() => {
-    axios.post(`http://${backend_ip}:3001/article/random-article`,{kakao_id: userId, category: category})
-      .then(response => {
-        setRecommendedArticle(response.data);
-      })
-      .catch(error => {
-        console.error('There was an error recommending an article!', error);
-      });
+    if(category!==null){
+      axios.post(`http://${backend_ip}:3001/article/random-article`,{kakao_id: userId, category: category})
+        .then(response => {
+          setRecommendedArticle(response.data);
+        })
+        .catch(error => {
+          console.error('There was an error recommending an article!', error);
+        });
+    }
+    else if(article_id!==null){
+      axios.get(`http://${backend_ip}:3001/article/choose-article`,{params:{article_id: article_id}})
+        .then(response => {
+          setRecommendedArticle(response.data);
+        })
+        .catch(error => {
+          console.error('There was an error recommending an article!', error);
+        });
+    }
   },[]);
+  useEffect(()=>{
+    if(recommendedArticle!==null){
+      axios.get(`http://${backend_ip}:3001/words/words`,{params:{article_id: article_id}})
+        .then(response => {
+          setWords(response.data);
+        })
+        .catch(error => {
+          console.error('There was an error recommending an article!', error);
+        });
+    }
+  },[recommendedArticle])
   
 
   const handleNewWordChange = (event) => {

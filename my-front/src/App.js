@@ -40,7 +40,7 @@ function App() {
           element={<Navigate to={isAuthenticated ? "/main" : "/login"} />}
         />
         <Route
-          path="/article-study/:category"
+          path="/article-study/:param"
           element={isAuthenticated ? <RecommendedArticle /> : <Navigate to="/login" />}
         />
         <Route
