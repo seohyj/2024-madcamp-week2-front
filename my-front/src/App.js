@@ -53,7 +53,7 @@ function App() {
           element={isAuthenticated ? <Categories /> : <Navigate to="/login" />}
         />
         <Route
-          path="/take-quiz"
+          path="/take-quiz/:id"
           element={isAuthenticated ? <QuizSelect /> : <Navigate to="/login" />}
         />
       </Routes>
