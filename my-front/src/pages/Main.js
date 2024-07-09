@@ -22,11 +22,13 @@ const Main = () => {
   const [selectedCategories, setSelectedCategories] = useState(['economy','Lifestyle','Culture','Economy']);
   const [readArticles, setReadArticles] = useState(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     if(userId===''){
       setUserId(localStorage.getItem('kakaoId'));
     }
   }, [userId]);
+
   useEffect(() => {
     if(userId!==''){
       axios.get(`http://${backend_ip}:3001/kakao/nickname?kakao_id=${userId}`)
@@ -34,10 +36,11 @@ const Main = () => {
         setNickName(response.data.nickname);
       })
       .catch(error => {
-        console.error('There was an error fetching article!', error);
+        console.error('There was an error fetching nickname!', error);
       });
     }
   }, [userId]);
+
   useEffect(() => {
     if(userId!==''){
       const fetchCategories = async () => {
@@ -67,6 +70,8 @@ const Main = () => {
       fetchCategories();
     }
   }, [userId]);
+
+
   
   useEffect(() => {
     if(userId!==''){
@@ -83,13 +88,17 @@ const Main = () => {
   },[userId]);
 
 
-
   const handleLogout = () => {
     const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`;
     const logoutUrl = `https://kauth.kakao.com/oauth/logout?client_id=17132d31284a95180bea1e6df5b24fb9&logout_redirect_uri=${logoutRedirectUri}`;
     localStorage.removeItem('kakaoId');
     window.location.href = logoutUrl;
-  }; 
+  };
+
+  const handleTakeQuiz = (articleId) => {
+    localStorage.setItem('selectedArticleId', articleId);
+    navigate(`/take-quiz/${articles.id}`);
+  };
 
   return (
     <Container>
@@ -127,7 +136,7 @@ const Main = () => {
               {(readArticles && readArticles.length>0)?(
                 <ButtonGroup>
                   <StyledLinkButton to={`/article-study/${readArticles[0].article_id}`}>View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[0].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               ):null
               }
@@ -136,21 +145,21 @@ const Main = () => {
                 <ArticleTitle>{readArticles && readArticles.length>1 ? readArticles[1].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[1].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
                 <ArticleTitle>{readArticles && readArticles.length>2 ? readArticles[2].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[2].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
                 <ArticleTitle>{readArticles && readArticles.length>3 ? readArticles[3].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to="/take-quiz">Take Quiz with the words you studied</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/${readArticles[3].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
             </Grid>

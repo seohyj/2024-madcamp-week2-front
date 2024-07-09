@@ -7,6 +7,7 @@ import KakaoLogin from './pages/kakaologin';
 import Main from './pages/Main';
 import RecommendedArticle from './pages/recommend_article';
 import Categories from './pages/categories';
+import QuizSelect from './pages/quiz_select';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); //로그인을 한적이 있는지 확인하는 State 변수
@@ -50,6 +51,10 @@ function App() {
         <Route
           path="/categories"
           element={isAuthenticated ? <Categories /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/take-quiz"
+          element={isAuthenticated ? <QuizSelect /> : <Navigate to="/login" />}
         />
       </Routes>
     </Router>
