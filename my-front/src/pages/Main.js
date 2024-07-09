@@ -97,7 +97,7 @@ const Main = () => {
 
   const handleTakeQuiz = (articleId) => {
     localStorage.setItem('selectedArticleId', articleId);
-    navigate(`/take-quiz/${articles.id}`);
+    navigate(`/take-quiz/${readArticles.id}`);
   };
 
   return (
@@ -133,33 +133,34 @@ const Main = () => {
         <Grid cols={4}>
               <GridItem>
                 <ArticleTitle>{readArticles && readArticles.length>0? readArticles[0].title : "read more articles"}</ArticleTitle>
-              {(readArticles && readArticles.length>0)?(
-                <ButtonGroup>
-                  <StyledLinkButton to={`/article-study/${readArticles[0].article_id}`}>View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to={`/take-quiz/${readArticles[0].article_id}`}>Take Quiz</StyledLinkButton>
-                </ButtonGroup>
-              ):null
-              }
+                {(readArticles && readArticles.length>0)?(
+                  <ButtonGroup>
+                    <StyledLinkButton to={`/article-study/${readArticles[0].article_id}`}>View Vocab Lists from this Article</StyledLinkButton>
+                    <StyledLinkButton to={`/take-quiz/${readArticles[0].article_id}`}>Take Quiz</StyledLinkButton>
+                  </ButtonGroup>
+                ):null
+                }
               </GridItem>
               <GridItem>
                 <ArticleTitle>{readArticles && readArticles.length>1 ? readArticles[1].title : "read more articles"}</ArticleTitle>
+                
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to={`/take-quiz/${readArticles[1].article_id}`}>Take Quiz</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
                 <ArticleTitle>{readArticles && readArticles.length>2 ? readArticles[2].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to={`/take-quiz/${readArticles[2].article_id}`}>Take Quiz</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
                 <ArticleTitle>{readArticles && readArticles.length>3 ? readArticles[3].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
-                  <StyledLinkButton to={`/take-quiz/${readArticles[3].article_id}`}>Take Quiz</StyledLinkButton>
+                  <StyledLinkButton to={`/take-quiz/`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
             </Grid>
