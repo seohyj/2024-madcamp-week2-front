@@ -20,7 +20,7 @@ const Main = () => {
   const [userId, setUserId] = useState('');
   const [nickname, setNickName] = useState('');
   const [selectedCategories, setSelectedCategories] = useState(['economy','Lifestyle','Culture','Economy']);
-  const [articles, setArticles] = useState([]);
+  const [readArticles, setReadArticles] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,24 +71,22 @@ const Main = () => {
     }
   }, [userId]);
 
+
+  
   useEffect(() => {
-    // Fetch articles here if needed and set them to the state
-    const fetchArticles = async () => {
-      try {
-        const response = await axios.get(`http://${backend_ip}:3001/articles`, {
-          params: {
-            user_id: userId,
-          }
-        });
-        setArticles(response.data.articles);
-      } catch (error) {
-        console.error('There was an error fetching articles!', error);
-      }
-    };
-    if (userId !== '') {
-      fetchArticles();
+    if(userId!==''){
+      axios.get(`http://${backend_ip}:3001/article/articles`,{params: {user_id: userId}})
+      .then(response => {
+        setReadArticles(response.data);
+        console.log(readArticles);
+      })
+      .catch(error => {
+        console.error('There was an error recommending an article!', error);
+      });
     }
-  }, [userId]);
+    
+  },[userId]);
+
 
   const handleLogout = () => {
     const logoutRedirectUri = `http://${backend_ip}:3001/kakao/logout/callback`;
@@ -134,28 +132,31 @@ const Main = () => {
         </SectionWrapper>
         <Grid cols={4}>
               <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ArticleTitle>{readArticles && readArticles.length>0? readArticles[0].title : "read more articles"}</ArticleTitle>
+              {(readArticles && readArticles.length>0)?(
                 <ButtonGroup>
-                  <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
+                  <StyledLinkButton to={`/article-study/${readArticles[0].article_id}`}>View Vocab Lists from this Article</StyledLinkButton>
                   <StyledLinkButton to={`/take-quiz/${readArticles[0].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
+              ):null
+              }
               </GridItem>
               <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ArticleTitle>{readArticles && readArticles.length>1 ? readArticles[1].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
                   <StyledLinkButton to={`/take-quiz/${readArticles[1].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ArticleTitle>{readArticles && readArticles.length>2 ? readArticles[2].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
                   <StyledLinkButton to={`/take-quiz/${readArticles[2].article_id}`}>Take Quiz</StyledLinkButton>
                 </ButtonGroup>
               </GridItem>
               <GridItem>
-                <ArticleTitle>Title of the Article Here</ArticleTitle>
+                <ArticleTitle>{readArticles && readArticles.length>3 ? readArticles[3].title : "read more articles"}</ArticleTitle>
                 <ButtonGroup>
                   <StyledLinkButton to="/wordslistView">View Vocab Lists from this Article</StyledLinkButton>
                   <StyledLinkButton to={`/take-quiz/${readArticles[3].article_id}`}>Take Quiz</StyledLinkButton>
