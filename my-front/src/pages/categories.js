@@ -7,14 +7,15 @@ import { backend_ip } from './constants.js';
 import Header from '../components/header.js';
 
 
-import politicsimg from '../assets/categoryImages/politics.png';
-import businessimg from '../assets/categoryImages/business.png';
-import economyimg from '../assets/categoryImages/economy.png';
-import scienceimg from '../assets/categoryImages/science.png';
-import healthimg from '../assets/categoryImages/health.png';
-import lifestyleimg from '../assets/categoryImages/lifestyle.png';
-import cultureimg from '../assets/categoryImages/culture.png';
-import technologyimg from '../assets/categoryImages/technology.png'; // 각 카테고리의 이미지를 import하세요.
+import politicsimg from '../assets/categorysquares/politicssquare.png';
+import businessimg from '../assets/categorysquares/businesssquare.png';
+import economyimg from '../assets/categorysquares/economysquare.png';
+import scienceimg from '../assets/categorysquares/sciencesquare.png';
+import healthimg from '../assets/categorysquares/healthsquare.png';
+import lifestyleimg from '../assets/categorysquares/lifestylesquare.png';
+import cultureimg from '../assets/categorysquares/culturesquare.png';
+import technologyimg from '../assets/categorysquares/technologysquare.png'; // 각 카테고리의 이미지를 import하세요.
+import BackgrndImg from '../assets/backgrndimg.png';
 
 const categories = [
     { id: 1, name: 'Politics', image: politicsimg },
@@ -75,33 +76,35 @@ const categories = [
     const accessToken = queryParams.get('accessToken');
 
     return (
-        <Container>
-          <Header handleLogout={handleLogout} />
-          <MainContent>
+      <Container>
+        <Header handleLogout={handleLogout} />
+        <MainContent>
+          <TitleContainer>
             <Title>Select your most interested article categories for recommendation</Title>
             <Subtitle>Start studying English by reading our recommended articles!</Subtitle>
-            <CategoriesGrid>
-              {categories.map((category) => (
-                <CategoryCard
-                  key={category.id}
-                  onClick={() => handleCategoryClick(category)}
-                  selected={selectedCategories.includes(category)}
-                >
-                  <CategoryImage src={category.image} alt={category.name} />
-                  <CategoryName>{category.name}</CategoryName>
-                </CategoryCard>
-              ))}
-            </CategoriesGrid>
-            <SelectedCategories>
-              {selectedCategories.map((category) => (
-                <SelectedCategory key={category.id}>{category.name}</SelectedCategory>
-              ))}
-            </SelectedCategories>
-            <SaveButton onClick={handleSaveSelection}>Save Selection</SaveButton>
-          </MainContent>
-        </Container>
-      );
-    };
+          </TitleContainer>
+          <CategoriesGrid>
+            {categories.map((category) => (
+              <CategoryCard
+                key={category.id}
+                onClick={() => handleCategoryClick(category)}
+                selected={selectedCategories.includes(category)}
+              >
+                <CategoryImage src={category.image} alt={category.name} />
+                <CategoryName>{category.name}</CategoryName>
+              </CategoryCard>
+            ))}
+          </CategoriesGrid>
+          <SelectedCategories>
+            {selectedCategories.map((category) => (
+              <SelectedCategory key={category.id}>{category.name}</SelectedCategory>
+            ))}
+          </SelectedCategories>
+          <SaveButton onClick={handleSaveSelection}>Save Selection</SaveButton>
+        </MainContent>
+      </Container>
+  );
+};
     
 export default Categories;
     
@@ -114,96 +117,147 @@ const Container = styled.div`
     flex-direction: column;
 `;
 
+const TitleContainer = styled.div`
+  max-width: 1600px;
+  height: 100%;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+  gap: 5px;
+`;
+
 const MainContent = styled.main`
-    padding: 2rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  padding: 1em;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url(${BackgrndImg}); /* 배경 이미지 추가 */
+  background-size: cover; /* 배경 이미지가 컨테이너를 덮도록 설정 */
+  background-position: center; /* 배경 이미지 위치 설정 */
 `;
 
+// select your ...
 const Title = styled.h1`
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-align: center;
+    margin: 0 0 0 0rem;
+    padding: 0 0 0 0rem;
+    color: black;
+    font-size: 50px;
+    letter-spacing: -2.3px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    line-height: 52px;
+    word-wrap: break-word;
+    text-align: left;
 `;
 
+// start studying ...
 const Subtitle = styled.h2`
-    font-size: 1.5rem;
-    font-weight: normal;
-    margin-bottom: 2rem;
-    text-align: center;
+    opacity: 0.80;
+    color: black;
+    font-size: 27px;
+    letter-spacing: -1px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    line-height: 25px;
+    word-wrap: break-word;
+    text-align: left;
 `;
 
+// 4*2 Grid
 const CategoriesGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 2rem;
-    color: '#f7f2fa';
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const CategoryCard = styled.div`
-    background: ${(props) => (props.selected ? '#f7f2fa' : '#f7f2fa')};
-    color: ${(props) => (props.selected ? '#f7f2fa' : 'black')};
-    border: ${(props) => (props.selected ? '2px solid #0056b3' : '1px solid #ccc')};
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    transition: background 0.3s, color 0.3s, border 0.3s;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
-    height: 290px;
-    justify-content: center;
-    text-align: center;
+  background: #f7f2fa;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  //background: ${(props) => (props.selected ? '#f7f2fa' : 'transparent')};
+  border: ${(props) => (props.selected ? ' #f7f2fa' : 'none')};
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column; /* Flex direction set to column */
+  align-items: center;    /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  padding: 0.5px;
+  align-items: center;
+  justify-items: center;
+  transition: background 0.3s, border 0.3s;
+  position: relative;
+  width: 366px;   /* Ensure the card has the desired width */
+  height: 290px;  /* Ensure the card has the desired height */
 
-    &:hover {
-        background: ${(props) => (props.selected ? '#f7f2fa' : '#e0e0e0')};
-    }
+  &:hover {
+    background: #bfb7d3;
+  }
 `;
 
 const CategoryImage = styled.img`
-    width: 100%;
-    height: auto;
-    max-height: 190px;
-    margin-bottom: 1rem;
-    border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
 `;
 
 const CategoryName = styled.div`
-    font-size: 1.25rem;
-    font-weight: bold;
+  position: absolute;
+  top: 8px;
+  left: 15px;
+  background: rgba(0, 0, 0, 0);
+  color: black;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 1.3rem;
+  font-family: Avenir;
+  font-weight: bold;
 `;
 
 const SelectedCategories = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const SelectedCategory = styled.div`
-    background: #007bff;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    font-size: 1rem;
+  background: #e3dbe8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: Avenir;
 `;
 
 const SaveButton = styled.button`
-    background: #007bff;
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font-size: 1.25rem;
+  width: 200px;
+  height: 100%;
+  padding: 8px;
+  background: #F8F8F8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  border-color: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: #1e1e1e;
+  font-size: 1rem;
+  font-family: Avenir;
+  font-weight: 600;
 
-    &:hover {
-        background: #0056b3;
-    }
+  &:hover {
+    background: #bfb7d3;
+  }
 `;
