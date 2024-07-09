@@ -76,7 +76,7 @@ const RecommendedArticle = () => {
       axios.post(`http://${backend_ip}:3001/words/word`,{ article_id: recommendedArticle.article_id, word: newWord})
         .then(response => {
           if (response.data.word) {
-            setWords([...words, { word: newWord, word_korean:response.data.word_korean }]);
+            setWords([...words, response.data]);
             setNewWord('');
           }
         })
@@ -85,6 +85,17 @@ const RecommendedArticle = () => {
         });
     }
   };
+  const handleDeleteWord = (word_id)=>{
+    if (recommendedArticle) {
+      axios.delete(`http://${backend_ip}:3001/words/delete-word`,{params:{word_id: word_id}})
+        .then(response => {
+          setWords((prevWords) => prevWords.filter((word) => word.word_id !== word_id));
+        })
+        .catch(error => {
+          console.error('There was an error adding the word!', error);
+        });
+    }
+  }
 
   return (
     <div className="App">
@@ -112,8 +123,10 @@ const RecommendedArticle = () => {
           <div className="word-list">
             {words.map((word, index) => (
               <div key={index} className="word-item">
+                <strong>{word.word_id}</strong>
                 <strong>{word.word}</strong>
                 <strong>{word.word_korean}</strong>
+                <button onClick={() => handleDeleteWord(word.word_id)}>삭제</button>
               </div>
             ))}
           </div>

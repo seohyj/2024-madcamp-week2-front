@@ -19,17 +19,19 @@ const GlobalStyle = createGlobalStyle`
 const Main = () => {
   const [userId, setUserId] = useState('');
   const [nickname, setNickName] = useState('');
+  const [readArticleNum, setReadArticleNum] = useState(0);
+  const [readWordNum, setReadWordNum] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState(['economy','Lifestyle','Culture','Economy']);
   const [readArticles, setReadArticles] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => { //userId 가져오는 코드
     if(userId===''){
       setUserId(localStorage.getItem('kakaoId'));
     }
   }, [userId]);
 
-  useEffect(() => {
+  useEffect(() => { //닉네임 가져오는 코드
     if(userId!==''){
       axios.get(`http://${backend_ip}:3001/kakao/nickname?kakao_id=${userId}`)
       .then(response => {
@@ -40,8 +42,31 @@ const Main = () => {
       });
     }
   }, [userId]);
-
-  useEffect(() => {
+  useEffect(() => { //읽은 기사 개수 가져오는 코드
+    if(userId!==''){
+      axios.get(`http://${backend_ip}:3001/article/read-article-num?user_id=${userId}`)
+      .then(response => {
+        //console.log(response.data[0]['COUNT(*)']);
+        setReadArticleNum(response.data[0]['COUNT(*)']);
+      })
+      .catch(error => {
+        console.error('There was an error fetching nickname!', error);
+      });
+    }
+  }, [userId]);
+  useEffect(() => { //단어장의 단어 개수 가져오는 코드
+    if(userId!==''){
+      axios.get(`http://${backend_ip}:3001/words/read-word-num?user_id=${userId}`)
+      .then(response => {
+        //console.log(response.data[0]['COUNT(words.word_id)']);
+        setReadWordNum(response.data[0]['COUNT(words.word_id)']);
+      })
+      .catch(error => {
+        console.error('There was an error fetching nickname!', error);
+      });
+    }
+  }, [userId]);
+  useEffect(() => { //category 가져오는 코드
     if(userId!==''){
       const fetchCategories = async () => {
         let category_buffer = ['', '', '', ''];
@@ -101,6 +126,8 @@ const Main = () => {
       <Header handleLogout={handleLogout} />
       <MainContent>
         <WelcomeMessage>Welcome, {nickname || 'User'}</WelcomeMessage>
+        <div>Read Articles: {readArticleNum}</div>
+        <div>Studies Vocabs: {readWordNum}</div>
         <SectionWrapper>
           <ImageContainer backgroundImage={mainb1}></ImageContainer>
         </SectionWrapper>
