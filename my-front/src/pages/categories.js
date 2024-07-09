@@ -108,136 +108,102 @@ export default Categories;
 // Styled Components
     
 const Container = styled.div`
-  min-height: 100vh;
-  background: #f0f0f0;
-  display: flex;
-  flex-direction: column;
-`;
-    
-
-const Logo = styled.img`
-  width: 124px;
-  height: 25px;
+    min-height: 100vh;
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
 `;
 
-const Nav = styled.div`
-  display: flex;
-  gap: 12px;
+const MainContent = styled.main`
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
-const Button = styled.button`
-  width: 83px;
-  height: 32px;
-  padding: 8px;
-  background: #E3E3E3;
-  border-radius: 8px;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  overflow: hidden;
-  
-  &:hover {
-    background: #d3d3d3;
-  }
+const Title = styled.h1`
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
 `;
 
-const ButtonImage = styled.img`
-  width: 100%;
-  height: 100%;
+const Subtitle = styled.h2`
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-bottom: 2rem;
+    text-align: center;
 `;
 
-const StyledLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
+const CategoriesGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    color: '#f7f2fa';
 `;
-    
-    const MainContent = styled.main`
-      padding: 2rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    `;
-    
-    const Title = styled.h1`
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      text-align: center;
-    `;
-    
-    const Subtitle = styled.h2`
-      font-size: 1.5rem;
-      font-weight: normal;
-      margin-bottom: 2rem;
-      text-align: center;
-    `;
-    
-    const CategoriesGrid = styled.div`
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
-      @media (max-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    `;
-    
-    const CategoryCard = styled.div`
-      background: ${(props) => (props.selected ? '#007bff' : 'white')};
-      color: ${(props) => (props.selected ? 'white' : 'black')};
-      border: ${(props) => (props.selected ? '2px solid #0056b3' : '1px solid #ccc')};
-      border-radius: 0.25rem;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1rem;
-      transition: background 0.3s, color 0.3s, border 0.3s;
-    `;
-    
-    const CategoryImage = styled.img`
-      width: 100px;
-      height: 100px;
-      margin-bottom: 0.5rem;
-    `;
-    
-    const CategoryName = styled.div`
-      font-size: 1.25rem;
-      font-weight: bold;
-    `;
-    
-    const SelectedCategories = styled.div`
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    `;
-    
-    const SelectedCategory = styled.div`
-      background: #007bff;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 0.25rem;
-      font-size: 1rem;
-    `;
-    
-    const SaveButton = styled.button`
-      background: #007bff;
-      color: white;
-      padding: 1rem 2rem;
-      border: none;
-      border-radius: 0.25rem;
-      cursor: pointer;
-      font-size: 1.25rem;
-    
-      &:hover {
+
+const CategoryCard = styled.div`
+    background: ${(props) => (props.selected ? '#f7f2fa' : '#f7f2fa')};
+    color: ${(props) => (props.selected ? '#f7f2fa' : 'black')};
+    border: ${(props) => (props.selected ? '2px solid #0056b3' : '1px solid #ccc')};
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    transition: background 0.3s, color 0.3s, border 0.3s;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+    height: 290px;
+    justify-content: center;
+    text-align: center;
+
+    &:hover {
+        background: ${(props) => (props.selected ? '#f7f2fa' : '#e0e0e0')};
+    }
+`;
+
+const CategoryImage = styled.img`
+    width: 100%;
+    height: auto;
+    max-height: 190px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+`;
+
+const CategoryName = styled.div`
+    font-size: 1.25rem;
+    font-weight: bold;
+`;
+
+const SelectedCategories = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+`;
+
+const SelectedCategory = styled.div`
+    background: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+`;
+
+const SaveButton = styled.button`
+    background: #007bff;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+
+    &:hover {
         background: #0056b3;
-      }
-    `;
-  
+    }
+`;

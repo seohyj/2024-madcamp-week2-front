@@ -327,7 +327,7 @@ const StyledLinkButton = styled(Link)`
 `;
 
 const CenterRowGrid = styled.div`
-  padding: 0px 14px 0px 14px;
+  padding: 8px 0px 0px 0px;
   text-align: center;
   display: flex;
   flex-direction: row;
@@ -336,7 +336,7 @@ const CenterRowGrid = styled.div`
 `;
 
 const Grid = styled.div`
-  padding: 7px 0px 7px 0px;
+  padding: 13px 0px 10px 0px;
   align-items: center;
   display: grid;
   width: 100%;
@@ -346,7 +346,7 @@ const Grid = styled.div`
 
 const BottomGrid = styled.div`
   width: 100%;
-  padding: 7px 0px 7px 0px;
+  padding: 18px 0px 10px 0px;
   display: grid;
   grid-template-columns: repeat(${props => props.cols || 4}, 1fr);
   column-gap: 20px; /* Adjusted gap to 44px */
@@ -397,9 +397,9 @@ const CenterButton = styled.div`
 const StyledLink = styled(Link)`
   color: #0C0C0D;
   font-family: 'Poppins', sans-serif;
-  font-size: 25px;
+  font-size: 22px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 120%; /* 48px */
   letter-spacing: -1.2px;
   text-decoration: none;
