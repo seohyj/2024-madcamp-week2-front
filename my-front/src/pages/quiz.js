@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate,useParams,Link } from 'react-router-dom';
 import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from '../components/header.js';
@@ -13,10 +13,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const QuizSelect = () => {
+const QuizView = () => {
   const [articleDetails, setArticleDetails] = useState({});
+  const [words, setWords] = useState([]);
+  const [TFList,setTFList] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
   const navigate = useNavigate();
-  let { articleId } = useParams();
+  let { articleId, quizType } = useParams();
+  const show_type = (quizType==='KOR') ? 1 : 0; //1이면 영어를 0이면 한글을 default로 보여줌
   useEffect(() => {
     if (articleId) {
       axios.get(`http://${backend_ip}:3001/article/choose-article?article_id=${articleId}`)
@@ -27,11 +32,37 @@ const QuizSelect = () => {
           console.error('There was an error fetching the article details!', error);
         });
     }
-  }, [articleId]);
+  }, []);
 
-  const handleQuizSelection = (type) => {
-    navigate(`/quiz/${articleId}/${type}`);
-  };
+  useEffect(()=>{
+    if(articleDetails.title!==null||articleDetails.title!==undefined){
+      axios.get(`http://${backend_ip}:3001/words/words`,{params:{article_id: articleId}})
+        .then(response => {
+          setWords(response.data);
+        })
+        .catch(error => {
+          console.error('There was an error recommending an article!', error);
+        });
+    }
+  },[articleDetails])
+
+  if(words.length===0){
+    return <div>there are no words</div>;
+  }
+  if(index>=words.length){ //퀴즈 끝난 부분 구현
+    return(
+        <Container>
+            {words.map((word, index) => (
+              <div key={index} className="word-item">
+                <strong>{word.word}</strong>
+                <strong>{word.word_korean}</strong>
+                <div>{TFList[index] ? "true" : "false"}</div>
+              </div>
+            ))}
+            <Link to='/main'>end quiz</Link>
+        </Container>
+    );
+  }
 
   return (
     <Container>
@@ -45,16 +76,18 @@ const QuizSelect = () => {
           </Meta>
           <Description>Take a Quiz and Boost up your English!</Description>
         </ArticleInfo>
-        <ButtonContainer>
-          <QuizButton onClick={() => handleQuizSelection('ENG')}>Fill English</QuizButton>
-          <QuizButton onClick={() => handleQuizSelection('KOR')}>Fill Korean</QuizButton>
-        </ButtonContainer>
+        <div>{show_type? words[index].word:words[index].word_korean}</div> 
+        <button onClick={()=>showAnswer? setShowAnswer(false) :setShowAnswer(true)}>
+            {showAnswer?  (show_type? words[index].word_korean:words[index].word) :"click to answer"}</button>
+        <input></input>
+        <button onClick={()=>{setIndex((index)=>index+1); setShowAnswer(false);setTFList((prevTF) => [...prevTF, true]);}}>set correct</button>
+        <button onClick={()=>{setIndex((index)=>index+1); setShowAnswer(false);setTFList((prevTF) => [...prevTF, false]);}}>set false</button>
       </MainContent>
     </Container>
   );
 };
 
-export default QuizSelect;
+export default QuizView;
 
 // Styled Components
 

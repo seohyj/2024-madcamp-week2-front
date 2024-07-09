@@ -96,7 +96,9 @@ const RecommendedArticle = () => {
         });
     }
   }
-
+  if(recommendedArticle===null){
+    return <div>로딩중</div>;
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -123,7 +125,6 @@ const RecommendedArticle = () => {
           <div className="word-list">
             {words.map((word, index) => (
               <div key={index} className="word-item">
-                <strong>{word.word_id}</strong>
                 <strong>{word.word}</strong>
                 <strong>{word.word_korean}</strong>
                 <button onClick={() => handleDeleteWord(word.word_id)}>삭제</button>
