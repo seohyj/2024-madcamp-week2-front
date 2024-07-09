@@ -126,7 +126,7 @@ const Main = () => {
       <Header handleLogout={handleLogout} />
       <MainContent>
         <Headcontainer>
-          <WelcomeMessage>Welcome, {nickname || 'User'}</WelcomeMessage>
+        <WelcomeMessage>Welcome, {nickname || 'User'}</WelcomeMessage>
           <Colcontainer>
             <div>Read Articles: {readArticleNum}</div>
             <div>Studied Vocabs: {readWordNum}</div>
@@ -263,14 +263,12 @@ const MainContent = styled.main`
 `;
 
 const WelcomeMessage = styled.h1`
-  font-family: 'Open Sans';
-  padding: 10px 0px 10px 10px;
-  margin: 0px 0px 0px 0px;
-  color: black;
-  font-style: normal;
+  font-style: Poppins;
   font-size: 2.5rem;
-  font-weight: 600;
-  text-align: left;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  margin-bottom: 0rem;
+  text-align: center;
 `;
 
 const SectionWrapper = styled.section`

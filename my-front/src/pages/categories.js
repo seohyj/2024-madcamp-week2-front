@@ -241,21 +241,21 @@ const SelectedCategory = styled.div`
 `;
 
 const SaveButton = styled.button`
-  width: 200px;
-  height: 100%;
+  width: 349px;
+  height: 59px;
   padding: 8px;
   background: #F8F8F8;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0);
   overflow: hidden;
   justify-content: center;
   align-items: center;
   gap: 8px;
   color: #1e1e1e;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-family: Avenir;
-  font-weight: 600;
+  font-weight: 500;
 
   &:hover {
     background: #bfb7d3;
