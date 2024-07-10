@@ -4,6 +4,7 @@ import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from '../components/header.js';
 import { backend_ip } from './constants.js';
+import QuizBackImage from '../assets/quizselectbackground.png';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -73,18 +74,18 @@ const QuizView = () => {
       <Container>
         <Header />
         <GlobalStyle />
-        <MainContent style={{ backgroundImage: 'url("이미지 경로 삽입")' }}>
-          <ResultsContainer>
+        <MainContent>
+            <ResultsContainer>
             <div>맞은 개수 : {tfcounts.trueCount}</div>
             <div>틀린 개수 : {tfcounts.falseCount}</div>
-            {words.map((word, index) => (
-              <WordResult key={index}>
-                <strong>{word.word}</strong>
-                <strong>{word.word_korean}</strong>
-                <div>{TFList[index] ? "Correct" : "Wrong"}</div>
-              </WordResult>
-            ))}
-          </ResultsContainer>
+              {words.map((word, index) => (
+                <WordResult key={index}>
+                  <EngWord><strong>{word.word}</strong></EngWord>
+                  <KorWord><strong>{word.word_korean}</strong></KorWord>
+                  <ResWord><div>{TFList[index] ? "Correct" : "Wrong"}</div></ResWord>
+                </WordResult>
+              ))}
+            </ResultsContainer>
           <LinkButton to='/main'>End Quiz</LinkButton>
         </MainContent>
     </Container>
@@ -95,26 +96,25 @@ const QuizView = () => {
     <Container>
       <GlobalStyle />
       <Header />
-      <MainContent style={{ backgroundImage: 'url("이미지 경로 삽입")' }}>
+      <MainContent>
         <ArticleInfo>
           <Title>{articleDetails.title || 'Article Title'}</Title>
           <Meta>
-            <Author>By: {articleDetails.author || 'Author'}</Author>
-            <Date>Date: {articleDetails.date || '2024-00-00'}</Date>
+            By: {articleDetails.author || 'Author'} | Date: {articleDetails.date || '2024-00-00'}
           </Meta>
           <Description>Take a Quiz and Boost up your English!</Description>
         </ArticleInfo>
         <QuizSection>
           <QuizWord>{show_type ? words[index].word : words[index].word_korean}</QuizWord>
           <QuizButton onClick={() => setShowAnswer(!showAnswer)}>
-            {showAnswer ? (show_type ? words[index].word_korean : words[index].word) : "Click to see the answer"}
+            {showAnswer ? (show_type ? words[index].word_korean : words[index].word) : "Click to Check Answer"}
           </QuizButton>
-          <AnswerInput placeholder="Fill in your Answer Here" ref={inputRef} />
-          <ButtonGroup>
-            <ResultButton correct onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, true]); inputRef.current.value=''; }}>Correct</ResultButton>
+          <AnswerInput placeholder="Fill in your Answer Here" />
+        </QuizSection>
+        <ButtonGroup>
+            <ResultButton correct onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, true]);inputRef.current.value=''; }}>Correct</ResultButton>
             <ResultButton onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, false]); inputRef.current.value=''; }}>Wrong</ResultButton>
           </ButtonGroup>
-        </QuizSection>
       </MainContent>
     </Container>
   );
@@ -129,18 +129,24 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #f0f0f0;
 `;
 
 const MainContent = styled.main`
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
-  flex: 1;
+  flex: 3;
   width: 100%;
   max-width: 1920px;
   padding-left: 160px;
   padding-right: 160px;
+  background-image: url(${QuizBackImage});
+  background-size: cover; /* 배경 이미지 크기를 조절하여 요소를 덮도록 설정 */
+  background-position: center; /* 배경 이미지의 위치를 중앙으로 설정 */
+  background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
   box-sizing: border-box;
-  background-size: cover;
-  background-repeat: no-repeat;
 `;
 
 const ArticleInfo = styled.div`
@@ -152,82 +158,69 @@ const Title = styled.h1`
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  font-family: Avenir;
-  letter-spacing: -0.7px;
+  font-family: 'Avenir', sans-serif;
+  letter-spacing: -1.2px;
 `;
 
 const Meta = styled.div`
-  display: flex;
+  font-family: 'Maven Pro', sans-serif;
+  letter-spacing: 0px;
+  font-weight: 500;
+  font-size: 1.17rem;
+  margin-bottom: 1rem;
   justify-content: center;
   align-items: center;
-  gap: 43px;
-  margin-bottom: 1rem;
-`;
-
-const Author = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  color: black;
-  font-family: 'Maven Pro', sans-serif;
-  line-height: 52px;
-  word-wrap: break-word;
-`;
-
-const Date = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  color: black;
-  font-family: 'Maven Pro', sans-serif;
-  line-height: 52px;
-  word-wrap: break-word;
 `;
 
 const Description = styled.div`
-  font-size: 27px;
-  font-weight: 400;
-  color: black;
-  font-family: 'Poppins', sans-serif;
-  line-height: 25px;
-  word-wrap: break-word;
-  opacity: 0.8;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0rem;
 `;
 
 const QuizSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
-  margin-top: 30px;
+  gap: 1rem;
+  margin-top: 0px;
 `;
 
 const QuizWord = styled.div`
-  width: 700px;
+  min-width: 700px;
   background: rgba(247, 242, 250, 0.9);
-  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
-  border-radius: 100px;
-  text-align: center;
-  color: black;
-  font-size: 50px;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  line-height: 28px;
-  word-wrap: break-word;
-  padding: 30px 0;
-`;
-
-const QuizButton = styled.button`
-  width: 100%;
-  height: 130px;
-  background: rgba(247, 242, 250, 0.9);
-  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.5);
   border-radius: 100px;
   text-align: center;
   color: black;
   font-size: 30px;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-family: 'Maven Pro', sans-serif;
   line-height: 28px;
   word-wrap: break-word;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
+`;
+
+const QuizButton = styled.button`
+  min-width: 700px;
+  background: transparent;
+  border-radius: 100px;
+  border-color: transparent;
+  text-align: center;
+  color: black;
+  font-size: 30px;
+  font-weight: 600;
+  font-family: 'Maven Pro', sans-serif;
+  line-height: 28px;
+  word-wrap: break-word;
+  margin: 0 0 0 0rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -238,19 +231,26 @@ const QuizButton = styled.button`
 `;
 
 const AnswerInput = styled.input`
-  width: 100%;
-  height: 130px;
-  background: rgba(247, 242, 250, 0.9);
-  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+  min-width: 700px;
+  margin-top: 0rem;
+  margin-bottom: 4rem;
+  margin-left: 0rem;
+  margin-top: 0rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.1);
   border-radius: 100px;
+  border-color: rgba(0, 0, 0, 0.02);
   text-align: center;
   color: black;
   font-size: 30px;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  line-height: 28px;
+  font-weight: 600;
+  font-family: 'Maven Pro', sans-serif;
+  letter-spacing: -0.5px;
   word-wrap: break-word;
-  padding: 0 20px;
   &:focus {
     outline: none;
   }
@@ -258,21 +258,26 @@ const AnswerInput = styled.input`
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 45px;
+  flex-direction: row;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ResultButton = styled.button`
-  width: 100%;
+  width: 430px;
   height: 130px;
-  background: ${props => props.correct ? '#C8E4E3' : '#AFC6DE'};
+  background: ${props => props.correct ? 'rgba(255, 2, 2, 0.17)' : 'rgba(2, 2, 255, 0.17)'};
   box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+  border-color: transparent;
   border-radius: 100px;
   text-align: center;
   color: black;
-  font-size: 30px;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  line-height: 28px;
+  font-size: 40px;
+  font-weight: 700;
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: -0.3px;
   word-wrap: break-word;
   cursor: pointer;
   display: flex;
@@ -280,7 +285,7 @@ const ResultButton = styled.button`
   justify-content: center;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
   }
 `;
 
@@ -289,6 +294,8 @@ const ResultButton = styled.button`
     grid-template-columns: repeat(4, 1fr); 
     gap: 20px; 
     padding: 20px;
+    align-items: center;
+    justify-content: center;
   `;
 
   const WordResult = styled.div`
@@ -296,17 +303,61 @@ const ResultButton = styled.button`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(247, 242, 250, 0.9);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    gap: 1rem;
+    background: rgba(247, 242, 250, 0.8);
     box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    padding: 20px;
+    border-radius: 15px;
     text-align: center;
-    font-size: 20px;
-    font-family: 'Poppins', sans-serif;
     color: black;
   `;
 
+  const EngWord = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Avenir', sans-serif;
+    color: black;
+  `;
+  
+  const KorWord = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Avenir', sans-serif;
+    color: black;
+  `;
+
+  const ResWord = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Avenir', sans-serif;
+    letter-spacing: -0.3px;
+    color: ${props => (props.isCorrect ? '#a53f3b' : '#2e3b99')};
+  `;
+
   const LinkButton = styled(Link)`
+    flex-direction: column;
     display: inline-block;
     background: #f8f8f8;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -317,6 +368,8 @@ const ResultButton = styled.button`
     color: #1e1e1e;
     text-decoration: none;
     margin-top: 20px;
+    align-self: center;
+    justify-content: center;
     cursor: pointer; 
     &:hover { background: #e0e0e0; }
   `;
