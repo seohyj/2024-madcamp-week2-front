@@ -119,7 +119,7 @@ const ButtonContainer = styled.div`
 
 const QuizButton = styled.button`
   width: 600px;
-  height: 220px;
+  height: 200px;
   background: #e4dee8;
   border: none;
   border-radius: 170px;
