@@ -30,7 +30,7 @@ const Header = ({ handleLogout }) => {
             <ButtonImage src={logoutImage} alt="Log Out" />
           </ButtonImageContainer>
         </Button>
-        <StyledLink to="/my-page">
+        <StyledLink to="/articlelistView">
           <Button>
             <ButtonImageContainer>
               <ButtonImage src={myPageImage} alt="My Page" />
