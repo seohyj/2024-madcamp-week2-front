@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate,useParams,Link } from 'react-router-dom';
 import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -26,6 +26,7 @@ const QuizView = () => {
   let { articleId, quizType } = useParams();
   const show_type = (quizType==='KOR') ? 1 : 0; //1이면 영어를 0이면 한글을 default로 보여줌
   
+  const inputRef =useRef(null);
   useEffect(() => {
     if (articleId) {
       axios.get(`http://${backend_ip}:3001/article/choose-article?article_id=${articleId}`)
@@ -54,12 +55,29 @@ const QuizView = () => {
     return <div>There are no words for Quiz.</div>;
   }
   if(index >= words.length){ //퀴즈 끝난 부분 구현
+    const countTrueFalse = (TFList) => {
+      let trueCount = 0;
+      let falseCount = 0;
+    
+      TFList.forEach((value) => {
+        if (value === true) {
+          trueCount++;
+        } else if (value === false) {
+          falseCount++;
+        }
+      });
+    
+      return { trueCount, falseCount };
+    };
+    const tfcounts = countTrueFalse(TFList);    
     return(
       <Container>
         <Header />
         <GlobalStyle />
         <MainContent>
             <ResultsContainer>
+            <div>맞은 개수 : {tfcounts.trueCount}</div>
+            <div>틀린 개수 : {tfcounts.falseCount}</div>
               {words.map((word, index) => (
                 <WordResult key={index}>
                   <EngWord><strong>{word.word}</strong></EngWord>
@@ -94,8 +112,8 @@ const QuizView = () => {
           <AnswerInput placeholder="Fill in your Answer Here" />
         </QuizSection>
         <ButtonGroup>
-            <ResultButton correct onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, true]); }}>Correct</ResultButton>
-            <ResultButton onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, false]); }}>Wrong</ResultButton>
+            <ResultButton correct onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, true]);inputRef.current.value=''; }}>Correct</ResultButton>
+            <ResultButton onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, false]); inputRef.current.value=''; }}>Wrong</ResultButton>
           </ButtonGroup>
       </MainContent>
     </Container>
