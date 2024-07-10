@@ -109,7 +109,7 @@ const QuizView = () => {
           <QuizButton onClick={() => setShowAnswer(!showAnswer)}>
             {showAnswer ? (show_type ? words[index].word_korean : words[index].word) : "Click to Check Answer"}
           </QuizButton>
-          <AnswerInput placeholder="Fill in your Answer Here" />
+          <AnswerInput placeholder="Fill in your Answer Here" ref={inputRef}/>
         </QuizSection>
         <ButtonGroup>
             <ResultButton correct onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, true]);inputRef.current.value=''; }}>Correct</ResultButton>
