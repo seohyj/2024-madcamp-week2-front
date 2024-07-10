@@ -46,12 +46,12 @@ const articles = [
     { id: 6, title: "Article Title" }
 ];
 
-const userId = localStorage.getItem('kakaoId');
+
 
 const ArticlelistView = () => {
   const [readArticles, setReadArticles] = useState([]);
   const [nickname, setNickName] = useState('');
-
+  const userId = localStorage.getItem('kakaoId');
   const handleDeleteArticle = (article_id)=>{
     
     axios.delete(`http://${backend_ip}:3001/article/delete-article`,{params:{article_id: article_id}})
