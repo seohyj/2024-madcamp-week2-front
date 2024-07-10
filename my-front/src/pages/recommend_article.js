@@ -284,7 +284,7 @@ const Input = styled.input`
   height: 48px;
   background: rgba(0, 0, 0, 0);
   border-radius: 8px;
-  border-bottom: 1px solid #7F7F7F;
+  border-bottom: 0.3px solid #7F7F7F;
   padding: 0 8px;
   font-size: 23px;
   font-family: 'Avenir', sans-serif;
@@ -299,7 +299,7 @@ const Input = styled.input`
   }
   &:focus {
     outline: none;
-    border: 1px solid ; /* 포커스 시 경계선 색상 */
+    border: 0.3px solid ; /* 포커스 시 경계선 색상 */
   }
 `;
 

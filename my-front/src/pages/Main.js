@@ -320,6 +320,7 @@ const TopStyledLinkButton = styled(Link)`
   padding: 6px 16px 6px 16px;
   box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
+  font-size: 20px;
   font-weight: 500;
   text-decoration: none;
   text-align: center;

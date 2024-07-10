@@ -76,8 +76,6 @@ const QuizView = () => {
         <GlobalStyle />
         <MainContent>
             <ResultsContainer>
-            <div>맞은 개수 : {tfcounts.trueCount}</div>
-            <div>틀린 개수 : {tfcounts.falseCount}</div>
               {words.map((word, index) => (
                 <WordResult key={index}>
                   <EngWord><strong>{word.word}</strong></EngWord>
@@ -86,7 +84,13 @@ const QuizView = () => {
                 </WordResult>
               ))}
             </ResultsContainer>
-          <LinkButton to='/main'>End Quiz</LinkButton>
+            <CenterContainer>
+              <ResultCounts>
+                <div>맞은 개수: {tfcounts.trueCount}</div>
+                <div>틀린 개수: {tfcounts.falseCount}</div>
+              </ResultCounts>
+            <LinkButton to='/main'>End Quiz</LinkButton>
+            </CenterContainer>
         </MainContent>
     </Container>
     );
@@ -133,6 +137,7 @@ const Container = styled.div`
 `;
 
 const MainContent = styled.main`
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -290,12 +295,15 @@ const ResultButton = styled.button`
 `;
 
   const ResultsContainer = styled.div`
+    width: 100%;
+    height: 120%;
     display: grid; 
     grid-template-columns: repeat(4, 1fr); 
-    gap: 20px; 
+    gap: 2rem; 
     padding: 20px;
     align-items: center;
     justify-content: center;
+    margin-top: 1rem;
   `;
 
   const WordResult = styled.div`
@@ -310,6 +318,7 @@ const ResultButton = styled.button`
     box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     text-align: center;
+    font-weight: 500;
     color: black;
   `;
 
@@ -361,15 +370,41 @@ const ResultButton = styled.button`
     display: inline-block;
     background: #f8f8f8;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    padding: 15px 30px;
-    font-size: 30px;
-    font-family: 'Poppins', sans-serif;
+    border-radius: 35px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 27px;
+    font-weight: 600;
+    font-family: 'Avenir', sans-serif;
     color: #1e1e1e;
     text-decoration: none;
-    margin-top: 20px;
     align-self: center;
     justify-content: center;
     cursor: pointer; 
     &:hover { background: #e0e0e0; }
   `;
+
+  const ResultCounts = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem; /* Adjust margin as needed */
+    font-size: 25px;
+    font-weight: 600;
+    font-family: 'Maven Pro', sans-serif;
+    color: black;
+    gap: 0.7rem;
+  `;
+
+  const CenterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+`;
