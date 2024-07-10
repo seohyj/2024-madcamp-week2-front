@@ -4,6 +4,7 @@ import axios from 'axios';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from '../components/header.js';
 import { backend_ip } from './constants.js';
+import QuizBackImage from '../assets/quizselectbackground.png';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -74,6 +75,10 @@ const MainContent = styled.main`
   padding-left: 160px;
   padding-right: 160px;
   box-sizing: border-box;
+  background-image: url(${QuizBackImage});
+  background-size: cover; /* 배경 이미지 크기를 조절하여 요소를 덮도록 설정 */
+  background-position: center; /* 배경 이미지의 위치를 중앙으로 설정 */
+  background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
 `;
 
 const ArticleInfo = styled.div`
@@ -83,12 +88,18 @@ const ArticleInfo = styled.div`
 
 const Title = styled.h1`
   font-size: 2.5rem;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 1rem;
+  font-family: Avenir;
+  letter-spacing: -0.7px;
+
 `;
 
 const Meta = styled.div`
-  font-size: 1rem;
+  font-family: Avenir;
+  letter-spacing: -0.5px;
+  font-weight: 500;
+  font-size: 1.17rem;
   margin-bottom: 1rem;
 `;
 
@@ -98,21 +109,25 @@ const Description = styled.div`
 `;
 
 const ButtonContainer = styled.div`
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
 `;
 
 const QuizButton = styled.button`
-  width: 300px;
-  height: 80px;
-  background: #ffffff;
+  width: 600px;
+  height: 220px;
+  background: #e4dee8;
   border: none;
-  border-radius: 40px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  font-size: 1.5rem;
-  font-weight: bold;
+  border-radius: 170px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  font-family: Avenir;
+  font-size: 2.3rem;
+  font-weight: 500;
+  letter-spacing: -1px;
   cursor: pointer;
   transition: transform 0.2s;
 

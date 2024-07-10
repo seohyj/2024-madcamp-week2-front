@@ -214,8 +214,8 @@ const ButtonContainer = styled.div`
 `;
 
 const LoginButton = styled.button`
-  width: 868px;
-  height: 130px;
+  width: 768px;
+  height: 120px;
   background: #292a2a;
   box-shadow: -3px -3px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
@@ -238,11 +238,13 @@ const LoginButton = styled.button`
 const ButtonText = styled.div`
   text-align: center;
   color: #f4ffb1;
-  font-size: 50px;
+  font-size: 32px;
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
   line-height: 50px;
   word-wrap: break-word;
+  padding-left: 15px;
+  padding-right: 15px;
 
   @media (max-width: 1024px) {
     font-size: 40px;

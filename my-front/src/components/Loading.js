@@ -1,19 +1,32 @@
 import React from 'react';
-import axios from 'axios';
-import '../styles/App.css';
 import styled from 'styled-components';
-import Spinner from '../assets/Loading.html';
+import '../assets/LoadingSpinner.css';
 
-export const Loading = () => {
+const LoadingSpinner = () => {
   return (
     <Background>
-        <LoadingText>Loading Contents ...</LoadingText>
-        <img src={Spinner} alt="Loading" width="5%" />
+      <LoadingText>Loading Contents ...</LoadingText>
+      <div className="loadingio-spinner-spinner-nq4q5u6dq7r">
+        <div className="ldio-x2uulkbinbj">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
     </Background>
   );
 };
-    
-export default Loading;
+
+export default LoadingSpinner;
 
 const Background = styled.div`
   position: absolute;
@@ -21,7 +34,6 @@ const Background = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background: #ffffffb7;
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -30,6 +42,8 @@ const Background = styled.div`
 `;
 
 const LoadingText = styled.div`
-  font: 1rem 'Avenir';
+  font: 2rem 'Avenir';
+  font-weight: 500;
   text-align: center;
+  letter-spacing: -0.7px;
 `;
