@@ -95,8 +95,10 @@ const ArticlelistView = () => {
       <Content>
         <TitleSection>
           <h1>Welcome, {nickname || 'User'}</h1>
-          <h2>Review your Vocabularies</h2>
-          <p>Here's a list of all articles you studied before.</p>
+          <TopContainer>
+            <h2>Review your Vocabularies with Wordicle.</h2>
+            <p>Here's a list of all articles you studied before.</p>
+          </TopContainer>
         </TitleSection>
         <Articles>
           {readArticles.map(article => (
@@ -138,26 +140,56 @@ const Content = styled.div`
   padding: 2rem;
 `;
 
+const TopContainer = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 0rem;
+  margin-left: 0rem;
+  margin-bottom: 0rem;
+  padding: 0 0 0 0rem;
+  display: flex;
+  flex-direction: column;
+  background: #e4dee8;
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  align-items: center;
+`;
+
 const TitleSection = styled.div`
   text-align: center;
   margin-bottom: 2rem;
   
   h1 {
     font-size: 2.5rem;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: -0.5px;
     color: #1D1B20;
+    text-align: left;
+    margin-top: 0rem;
+    margin-bottom: 0.3rem;
+    margin-left: 1.5rem;
+    margin-right:0rem;
   }
   
   h2 {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+    margin-left: 1.5rem;
+    margin-right:0rem;
     font-size: 2rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #1D1B20;
+    letter-spacing: -0.3px;
   }
   
   p {
+    margin-top: 0.7rem;
+    margin-bottom: 1rem;
+    margin-left: 1.5rem;
+    margin-right: 0rem;
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #1D1B20;
+    letter-spacing: -0.3px;
   }
 `;
 
@@ -165,6 +197,8 @@ const Articles = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-top: 0rem;
+  padding-top: 0rem;
 `;
 
 const ArticleItem = styled.div`
@@ -234,4 +268,5 @@ const DeleteButton = styled.button`
   color: #545454;
   cursor: pointer;
   font-size: 20px;
+  margin-right: 1rem;
 `;

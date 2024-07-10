@@ -10,6 +10,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 400;
+    margin: 0;
+    padding: 0;
   }
 `;
 
@@ -22,6 +24,7 @@ const QuizView = () => {
   const navigate = useNavigate();
   let { articleId, quizType } = useParams();
   const show_type = (quizType==='KOR') ? 1 : 0; //1이면 영어를 0이면 한글을 default로 보여줌
+  
   useEffect(() => {
     if (articleId) {
       axios.get(`http://${backend_ip}:3001/article/choose-article?article_id=${articleId}`)
@@ -46,21 +49,27 @@ const QuizView = () => {
     }
   },[articleDetails])
 
-  if(words.length===0){
-    return <div>there are no words</div>;
+  if(words.length === 0){
+    return <div>There are no words for Quiz.</div>;
   }
-  if(index>=words.length){ //퀴즈 끝난 부분 구현
+  if(index >= words.length){ //퀴즈 끝난 부분 구현
     return(
-        <Container>
+      <Container>
+        <Header />
+        <GlobalStyle />
+        <MainContent style={{ backgroundImage: 'url("이미지 경로 삽입")' }}>
+          <ResultsContainer>
             {words.map((word, index) => (
-              <div key={index} className="word-item">
+              <WordResult key={index}>
                 <strong>{word.word}</strong>
                 <strong>{word.word_korean}</strong>
-                <div>{TFList[index] ? "true" : "false"}</div>
-              </div>
+                <div>{TFList[index] ? "Correct" : "Wrong"}</div>
+              </WordResult>
             ))}
-            <Link to='/main'>end quiz</Link>
-        </Container>
+          </ResultsContainer>
+          <LinkButton to='/main'>End Quiz</LinkButton>
+        </MainContent>
+    </Container>
     );
   }
 
@@ -68,20 +77,26 @@ const QuizView = () => {
     <Container>
       <GlobalStyle />
       <Header />
-      <MainContent>
+      <MainContent style={{ backgroundImage: 'url("이미지 경로 삽입")' }}>
         <ArticleInfo>
           <Title>{articleDetails.title || 'Article Title'}</Title>
           <Meta>
-            By: {articleDetails.author || 'Author'} | Date: {articleDetails.date || '2024-00-00'}
+            <Author>By: {articleDetails.author || 'Author'}</Author>
+            <Date>Date: {articleDetails.date || '2024-00-00'}</Date>
           </Meta>
           <Description>Take a Quiz and Boost up your English!</Description>
         </ArticleInfo>
-        <div>{show_type? words[index].word:words[index].word_korean}</div> 
-        <button onClick={()=>showAnswer? setShowAnswer(false) :setShowAnswer(true)}>
-            {showAnswer?  (show_type? words[index].word_korean:words[index].word) :"click to answer"}</button>
-        <input></input>
-        <button onClick={()=>{setIndex((index)=>index+1); setShowAnswer(false);setTFList((prevTF) => [...prevTF, true]);}}>set correct</button>
-        <button onClick={()=>{setIndex((index)=>index+1); setShowAnswer(false);setTFList((prevTF) => [...prevTF, false]);}}>set false</button>
+        <QuizSection>
+          <QuizWord>{show_type ? words[index].word : words[index].word_korean}</QuizWord>
+          <QuizButton onClick={() => setShowAnswer(!showAnswer)}>
+            {showAnswer ? (show_type ? words[index].word_korean : words[index].word) : "Click to see the answer"}
+          </QuizButton>
+          <AnswerInput placeholder="Fill in your Answer Here" />
+          <ButtonGroup>
+            <ResultButton correct onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, true]); }}>Correct</ResultButton>
+            <ResultButton onClick={() => { setIndex(index + 1); setShowAnswer(false); setTFList([...TFList, false]); }}>Wrong</ResultButton>
+          </ButtonGroup>
+        </QuizSection>
       </MainContent>
     </Container>
   );
@@ -93,7 +108,6 @@ export default QuizView;
 
 const Container = styled.div`
   min-height: 100vh;
-  background: #f0f0f0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,6 +121,8 @@ const MainContent = styled.main`
   padding-left: 160px;
   padding-right: 160px;
   box-sizing: border-box;
+  background-size: cover;
+  background-repeat: no-repeat;
 `;
 
 const ArticleInfo = styled.div`
@@ -116,40 +132,173 @@ const ArticleInfo = styled.div`
 
 const Title = styled.h1`
   font-size: 2.5rem;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 1rem;
+  font-family: Avenir;
+  letter-spacing: -0.7px;
 `;
 
 const Meta = styled.div`
-  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 43px;
   margin-bottom: 1rem;
 `;
 
-const Description = styled.div`
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+const Author = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
+  font-family: 'Maven Pro', sans-serif;
+  line-height: 52px;
+  word-wrap: break-word;
 `;
 
-const ButtonContainer = styled.div`
+const Date = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
+  font-family: 'Maven Pro', sans-serif;
+  line-height: 52px;
+  word-wrap: break-word;
+`;
+
+const Description = styled.div`
+  font-size: 27px;
+  font-weight: 400;
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  line-height: 25px;
+  word-wrap: break-word;
+  opacity: 0.8;
+`;
+
+const QuizSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 50px;
+  margin-top: 30px;
+`;
+
+const QuizWord = styled.div`
+  width: 700px;
+  background: rgba(247, 242, 250, 0.9);
+  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+  border-radius: 100px;
+  text-align: center;
+  color: black;
+  font-size: 50px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  line-height: 28px;
+  word-wrap: break-word;
+  padding: 30px 0;
 `;
 
 const QuizButton = styled.button`
-  width: 300px;
-  height: 80px;
-  background: #ffffff;
-  border: none;
-  border-radius: 40px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  font-size: 1.5rem;
-  font-weight: bold;
+  width: 100%;
+  height: 130px;
+  background: rgba(247, 242, 250, 0.9);
+  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+  border-radius: 100px;
+  text-align: center;
+  color: black;
+  font-size: 30px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  line-height: 28px;
+  word-wrap: break-word;
   cursor: pointer;
-  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const AnswerInput = styled.input`
+  width: 100%;
+  height: 130px;
+  background: rgba(247, 242, 250, 0.9);
+  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+  border-radius: 100px;
+  text-align: center;
+  color: black;
+  font-size: 30px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  line-height: 28px;
+  word-wrap: break-word;
+  padding: 0 20px;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 45px;
+`;
+
+const ResultButton = styled.button`
+  width: 100%;
+  height: 130px;
+  background: ${props => props.correct ? '#C8E4E3' : '#AFC6DE'};
+  box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+  border-radius: 100px;
+  text-align: center;
+  color: black;
+  font-size: 30px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  line-height: 28px;
+  word-wrap: break-word;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     transform: scale(1.05);
   }
 `;
+
+  const ResultsContainer = styled.div`
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px; 
+    padding: 20px;
+  `;
+
+  const WordResult = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(247, 242, 250, 0.9);
+    box-shadow: 0px 7px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: black;
+  `;
+
+  const LinkButton = styled(Link)`
+    display: inline-block;
+    background: #f8f8f8;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    padding: 15px 30px;
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+    color: #1e1e1e;
+    text-decoration: none;
+    margin-top: 20px;
+    cursor: pointer; 
+    &:hover { background: #e0e0e0; }
+  `;

@@ -125,9 +125,13 @@ const Main = () => {
       <GlobalStyle />
       <Header handleLogout={handleLogout} />
       <MainContent>
+        <Headcontainer>
         <WelcomeMessage>Welcome, {nickname || 'User'}</WelcomeMessage>
-        <div>Read Articles: {readArticleNum}</div>
-        <div>Studies Vocabs: {readWordNum}</div>
+          <Colcontainer>
+            <div>Read Articles: {readArticleNum}</div>
+            <div>Studied Vocabs: {readWordNum}</div>
+          </Colcontainer>
+        </Headcontainer>
         <SectionWrapper>
           <ImageContainer backgroundImage={mainb1}></ImageContainer>
         </SectionWrapper>
@@ -218,6 +222,33 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const Headcontainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1600px;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  margin-right: 0rem;
+  margin-left: 0rem;
+  padding-left: 0.7rem;
+  padding-right: 2rem;
+`;
+
+const Colcontainer = styled.div`
+  display: flex;
+  gap: 1rem;
+
+  div {
+    background: #f7f2fa;
+    padding: 1rem 1rem;
+    border-radius: 0.7rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1d1b20;
+    text-align: center;
+  }
+`;
 const MainContent = styled.main`
   background: #ffffff;
   flex: center;
@@ -232,12 +263,12 @@ const MainContent = styled.main`
 `;
 
 const WelcomeMessage = styled.h1`
-  padding: 10px 0px 10px 10px;
-  margin: 0px 0px 0px 0px;
-  color: black;
+  font-style: Poppins;
   font-size: 2.5rem;
   font-weight: 500;
-  text-align: left;
+  margin-top: 0.5rem;
+  margin-bottom: 0rem;
+  text-align: center;
 `;
 
 const SectionWrapper = styled.section`
@@ -266,9 +297,9 @@ const TopButtonGroup = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 `;
 
 const ButtonGroup = styled.div`
@@ -289,7 +320,7 @@ const TopStyledLinkButton = styled(Link)`
   padding: 6px 16px 6px 16px;
   box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
   text-align: center;
   display: flex;
@@ -373,7 +404,7 @@ const GridItem = styled.div`
   box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
   text-align: center;
   display: flex;
-  min-height: 200px;
+  min-height: 195px;
   height: auto;
   flex-direction: column;
   justify-content: flex-end;
@@ -381,9 +412,10 @@ const GridItem = styled.div`
 `;
 
 const ArticleTitle = styled.h3`
+  font-family: Avenir;
   font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 `;
 
 const CenterButton = styled.div`

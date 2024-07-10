@@ -10,6 +10,8 @@ import Categories from './pages/categories';
 import QuizSelect from './pages/quiz_select';
 import ArticlelistView from './pages/articlelist';
 import QuizView from './pages/quiz';
+import Loading from './components/Loading';
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); //로그인을 한적이 있는지 확인하는 State 변수
   const [loading, setLoading] = useState(true); // 초기 로딩 상태
@@ -23,7 +25,7 @@ function App() {
 
 
   if (loading) {
-    return <div>Loading...</div>; // 로딩 중일 때 보여줄 UI
+    return <Loading />; // 로딩 중일 때 보여줄 UI
   }
 
   return (
