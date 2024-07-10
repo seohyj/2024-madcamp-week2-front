@@ -81,7 +81,8 @@ const RecommendedArticle = () => {
           }
         })
         .catch(error => {
-          console.error('There was an error adding the word!', error);
+          alert("위험한 단어");
+          setNewWord('');
         });
     }
   };
